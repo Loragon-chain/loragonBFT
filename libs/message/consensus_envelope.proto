@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package message;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/meterio/supernova/libs/message;message";
+
+message ConsensusEnvelope {
+    bytes raw = 1; // signature is contained
+    bytes senderAddr = 2 ; 
+}
