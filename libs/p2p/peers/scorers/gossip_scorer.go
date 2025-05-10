@@ -1,8 +1,8 @@
 package scorers
 
 import (
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/libs/p2p/peers/peerdata"
 	"github.com/pkg/errors"
 	pbrpc "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
 )

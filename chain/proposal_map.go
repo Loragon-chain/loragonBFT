@@ -3,8 +3,8 @@ package chain
 import (
 	"log/slog"
 
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/types"
 )
 
 type ProposalMap struct {

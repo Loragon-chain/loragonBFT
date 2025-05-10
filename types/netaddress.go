@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	cmn "github.com/meterio/supernova/libs/common"
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 )
 
 // NetAddress defines information about a peer on the network

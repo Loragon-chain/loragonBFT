@@ -3,14 +3,14 @@ package p2p
 import (
 	"context"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
 	"github.com/ethereum/go-ethereum/p2p/enr"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/libp2p/go-libp2p/core/connmgr"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/libs/p2p/encoder"
-	"github.com/meterio/supernova/libs/p2p/peers"
 	"github.com/multiformats/go-multiaddr"
 	ethpb "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
 	"github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1/metadata"

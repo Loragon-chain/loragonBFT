@@ -12,11 +12,11 @@ import (
 
 	_ "net/http/pprof"
 
+	"github.com/Loragon-chain/loragon-consensus/cmd/supernova/commands"
+	"github.com/Loragon-chain/loragon-consensus/txpool"
 	cmtcmd "github.com/cometbft/cometbft/cmd/cometbft/commands"
 	"github.com/cometbft/cometbft/cmd/cometbft/commands/debug"
 	"github.com/cometbft/cometbft/libs/cli"
-	"github.com/meterio/supernova/cmd/supernova/commands"
-	"github.com/meterio/supernova/txpool"
 )
 
 var (

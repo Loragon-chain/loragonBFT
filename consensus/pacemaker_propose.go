@@ -8,8 +8,8 @@ package consensus
 import (
 	"errors"
 
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/types"
 )
 
 var (

@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/libs/comm/proto"
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/libs/comm/proto"
+	"github.com/Loragon-chain/loragon-consensus/types"
 
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/common"

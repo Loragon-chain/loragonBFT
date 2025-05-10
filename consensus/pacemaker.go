@@ -14,15 +14,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragon-consensus/txpool"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/cometbft/cometbft/privval"
 	cmtproxy "github.com/cometbft/cometbft/proxy"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	cmn "github.com/meterio/supernova/libs/common"
-	"github.com/meterio/supernova/libs/p2p"
-	"github.com/meterio/supernova/txpool"
-	"github.com/meterio/supernova/types"
 )
 
 const (

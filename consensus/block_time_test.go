@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/libs/kv"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/libs/kv"
 )
 
 var (

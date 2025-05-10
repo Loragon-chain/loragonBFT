@@ -13,12 +13,12 @@ import (
 	"math/rand"
 	"sync"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/comm/rpc"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/p2p/enode"
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/meterio/supernova/libs/comm/rpc"
-	"github.com/meterio/supernova/types"
 )
 
 const (

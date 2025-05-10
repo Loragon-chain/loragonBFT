@@ -11,13 +11,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+	. "github.com/Loragon-chain/loragon-consensus/block"
 	"github.com/ethereum/go-ethereum/rlp"
-	. "github.com/meterio/supernova/block"
 
 	// "crypto/rand"
-	// cmn "github.com/meterio/supernova/libs/common"
+	// cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/types"
 )
 
 func TestSerialize(t *testing.T) {

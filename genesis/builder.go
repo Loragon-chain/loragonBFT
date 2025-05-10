@@ -6,11 +6,11 @@
 package genesis
 
 import (
+	"github.com/Loragon-chain/loragon-consensus/block"
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	v1 "github.com/cometbft/cometbft/api/cometbft/abci/v1"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/meterio/supernova/block"
-	cmn "github.com/meterio/supernova/libs/common"
-	"github.com/meterio/supernova/types"
 	"github.com/pkg/errors"
 )
 

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/meterio/supernova/libs/p2p"
-	"github.com/meterio/supernova/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
 )
 
 func FuzzMsgID(f *testing.F) {

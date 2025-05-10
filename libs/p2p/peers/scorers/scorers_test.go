@@ -5,7 +5,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/meterio/supernova/libs/p2p/peers/scorers"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
 	"github.com/prysmaticlabs/prysm/v5/cmd/beacon-chain/flags"
 	"github.com/prysmaticlabs/prysm/v5/config/features"
 	"github.com/sirupsen/logrus"

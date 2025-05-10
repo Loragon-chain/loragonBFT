@@ -5,7 +5,7 @@
 
 package comm
 
-import "github.com/meterio/supernova/types"
+import "github.com/Loragon-chain/loragon-consensus/types"
 
 // type Traffic struct {
 // 	Bytes    uint64

@@ -6,7 +6,7 @@
 package consensus
 
 import (
-	"github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/block"
 )
 
 type EpochEndInfo struct {

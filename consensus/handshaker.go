@@ -6,14 +6,14 @@ import (
 	"encoding/hex"
 	"fmt"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cometbft/cometbft/proxy"
 	sm "github.com/cometbft/cometbft/state"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/genesis"
 )
 
 type Handshaker struct {

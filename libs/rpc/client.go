@@ -9,14 +9,14 @@ import (
 	"context"
 	"io"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/libs/message"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/libs/message"
-	"github.com/meterio/supernova/libs/p2p"
-	"github.com/meterio/supernova/types"
 )
 
 type (

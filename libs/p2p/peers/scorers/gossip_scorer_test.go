@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/meterio/supernova/libs/p2p/peers"
-	"github.com/meterio/supernova/libs/p2p/peers/scorers"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
 	pbrpc "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
 	"github.com/prysmaticlabs/prysm/v5/testing/assert"
 )

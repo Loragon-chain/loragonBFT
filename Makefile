@@ -1,8 +1,8 @@
-PACKAGE = github.com/meterio/supernova
+PACKAGE = github.com/Loragon-chain/loragon-consensus
 
 GIT_COMMIT = $(shell git --no-pager log --pretty="%h" -n 1)
 GIT_TAG = $(shell git tag -l --points-at HEAD)
-METER_VERSION = $(shell cat cmd/supernova/VERSION)
+METER_VERSION = $(shell cat cmd/loragon/VERSION)
 DISCO_VERSION = $(shell cat cmd/disco/VERSION)
 
 PACKAGES = `go list ./... | grep -v '/vendor/'`
@@ -11,11 +11,11 @@ MAJOR = $(shell go version | cut -d' ' -f3 | cut -b 3- | cut -d. -f1)
 MINOR = $(shell go version | cut -d' ' -f3 | cut -b 3- | cut -d. -f2)
 export GO111MODULE=on
 
-.PHONY: supernova disco mdb all clean test
+.PHONY: loragon all clean test
 
-supernova:| go_version_check
+loragon:| go_version_check
 	@echo "building $@..."
-	@go build -v -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(METER_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)"  -tags '$(BUILD_TAGS)' ./cmd/supernova
+	@go build -v -o $(CURDIR)/bin/$@ -ldflags "-X main.version=$(METER_VERSION) -X main.gitCommit=$(GIT_COMMIT) -X main.gitTag=$(GIT_TAG)"  -tags '$(BUILD_TAGS)' ./cmd/loragon
 	@echo "done. executable created at 'bin/$@'"
 
 mdb:| go_version_check
@@ -43,11 +43,11 @@ go_version_check:
 		fi \
 	fi
 
-all: supernova disco mdb
+all: loragon disco mdb
 
 clean:
 	-rm -rf \
-$(CURDIR)/bin/supernova \
+$(CURDIR)/bin/loragon \
 $(CURDIR)/bin/disco 
 
 test:| go_version_check

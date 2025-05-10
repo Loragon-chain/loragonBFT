@@ -9,8 +9,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/stretchr/testify/assert"
 )
 

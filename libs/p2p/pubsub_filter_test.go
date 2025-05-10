@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
 	pubsubpb "github.com/libp2p/go-libp2p-pubsub/pb"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/libs/p2p/encoder"
 	"github.com/prysmaticlabs/prysm/v5/config/params"
 	"github.com/prysmaticlabs/prysm/v5/network/forks"
 	"github.com/prysmaticlabs/prysm/v5/testing/assert"

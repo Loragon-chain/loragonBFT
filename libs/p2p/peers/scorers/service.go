@@ -5,8 +5,8 @@ import (
 	"math"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/libs/p2p/peers/peerdata"
 	"github.com/pkg/errors"
 	"github.com/prysmaticlabs/prysm/v5/config/features"
 )

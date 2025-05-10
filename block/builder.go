@@ -6,8 +6,8 @@
 package block
 
 import (
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/meterio/supernova/types"
 )
 
 // Builder only build header and txs. committee info and kblock data built by app.

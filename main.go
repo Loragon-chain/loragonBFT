@@ -15,13 +15,13 @@ import (
 	"github.com/cometbft/cometbft/proxy"
 	"golang.org/x/sync/errgroup"
 
+	node "github.com/Loragon-chain/loragon-consensus/node"
 	cfg "github.com/cometbft/cometbft/config"
 	cmtflags "github.com/cometbft/cometbft/libs/cli/flags"
 	cmtlog "github.com/cometbft/cometbft/libs/log"
 	cmtnode "github.com/cometbft/cometbft/node"
-	node "github.com/meterio/supernova/node"
 
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/spf13/viper"
 )
 
@@ -41,7 +41,7 @@ func main() {
 
 	flag.Parse()
 	if homeDir == "" {
-		homeDir = os.ExpandEnv("$HOME/.supernova")
+		homeDir = os.ExpandEnv("$HOME/.loragon")
 	}
 
 	config := cfg.DefaultConfig()

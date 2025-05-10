@@ -10,13 +10,13 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/ethereum/go-ethereum/event"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/libs/co"
-	"github.com/meterio/supernova/types"
 	"github.com/pkg/errors"
 )
 

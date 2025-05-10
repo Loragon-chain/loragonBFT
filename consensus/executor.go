@@ -9,6 +9,9 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 	abci "github.com/cometbft/cometbft/abci/types"
 	abcitypes "github.com/cometbft/cometbft/abci/types"
 	v1 "github.com/cometbft/cometbft/api/cometbft/abci/v1"
@@ -16,9 +19,6 @@ import (
 	cmtproxy "github.com/cometbft/cometbft/proxy"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	cmn "github.com/meterio/supernova/libs/common"
 )
 
 var (

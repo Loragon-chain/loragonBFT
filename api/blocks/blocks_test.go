@@ -12,8 +12,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/meterio/supernova/api/blocks"
-	meter_block "github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/api/blocks"
+	meter_block "github.com/Loragon-chain/loragon-consensus/block"
 	"github.com/stretchr/testify/assert"
 )
 

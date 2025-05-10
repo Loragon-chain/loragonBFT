@@ -12,17 +12,17 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/api/blocks"
+	"github.com/Loragon-chain/loragon-consensus/api/doc"
+	"github.com/Loragon-chain/loragon-consensus/api/node"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/consensus"
+	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragon-consensus/txpool"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/meterio/supernova/api/blocks"
-	"github.com/meterio/supernova/api/doc"
-	"github.com/meterio/supernova/api/node"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/consensus"
-	"github.com/meterio/supernova/libs/co"
-	"github.com/meterio/supernova/libs/p2p"
-	"github.com/meterio/supernova/txpool"
 )
 
 type APIServer struct {

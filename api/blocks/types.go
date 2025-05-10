@@ -8,11 +8,11 @@ package blocks
 import (
 	"encoding/hex"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/types"
 )
 
 type JSONBlockSummary struct {

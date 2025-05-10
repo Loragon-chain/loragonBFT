@@ -4,9 +4,9 @@ package consensus
 // 1. provide probe for debug
 
 import (
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/types"
 )
 
 type BlockProbe struct {

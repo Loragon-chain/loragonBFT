@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/libs/message"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragon-consensus/libs/rpc"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/libs/message"
-	"github.com/meterio/supernova/libs/p2p"
-	"github.com/meterio/supernova/libs/rpc"
-	"github.com/meterio/supernova/types"
 )
 
 // finalize the block with its own QC

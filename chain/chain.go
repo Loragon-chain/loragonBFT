@@ -12,6 +12,10 @@ import (
 	"log/slog"
 	"sync"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	db "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	v1 "github.com/cometbft/cometbft/api/cometbft/abci/v1"
@@ -19,10 +23,6 @@ import (
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/libs/co"
-	"github.com/meterio/supernova/types"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 )

@@ -29,11 +29,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
 	"github.com/ethereum/go-ethereum/p2p/enr"
 	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/libs/p2p/peers/peerdata"
-	"github.com/meterio/supernova/libs/p2p/peers/scorers"
 	ma "github.com/multiformats/go-multiaddr"
 	manet "github.com/multiformats/go-multiaddr/net"
 	"github.com/pkg/errors"

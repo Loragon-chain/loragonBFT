@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
 	"github.com/golang/snappy"
 	pubsubpb "github.com/libp2p/go-libp2p-pubsub/pb"
-	"github.com/meterio/supernova/libs/p2p"
 	"github.com/prysmaticlabs/prysm/v5/beacon-chain/core/signing"
 	"github.com/prysmaticlabs/prysm/v5/config/params"
 	"github.com/prysmaticlabs/prysm/v5/crypto/hash"

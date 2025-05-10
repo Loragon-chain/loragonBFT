@@ -11,8 +11,8 @@ import (
 	"log/slog"
 	"sync"
 
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/meterio/supernova/types"
 )
 
 // txObjectMap to maintain mapping of ID to tx object, and account quota.

@@ -8,12 +8,12 @@ import (
 	"log/slog"
 	"strings"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmtcrypto "github.com/cometbft/cometbft/crypto"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	cmn "github.com/meterio/supernova/libs/common"
-	"github.com/meterio/supernova/types"
 
 	"github.com/prysmaticlabs/prysm/v5/crypto/bls"
 )

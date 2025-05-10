@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/common"
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/types"
 )
 
 const (

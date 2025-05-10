@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/libs/co"
-	"github.com/meterio/supernova/types"
 	"github.com/pkg/errors"
 )
 

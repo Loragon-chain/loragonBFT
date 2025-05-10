@@ -14,10 +14,10 @@ import (
 	// "io"
 	"sync/atomic"
 
+	"github.com/Loragon-chain/loragon-consensus/types"
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	"github.com/ethereum/go-ethereum/crypto/blake2b"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/meterio/supernova/types"
 )
 
 // Header contains almost all information about a block, except block body.

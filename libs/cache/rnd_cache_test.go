@@ -3,7 +3,7 @@ package cache_test
 import (
 	"testing"
 
-	"github.com/meterio/supernova/libs/cache"
+	"github.com/Loragon-chain/loragon-consensus/libs/cache"
 	"github.com/stretchr/testify/assert"
 )
 

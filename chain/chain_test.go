@@ -8,11 +8,11 @@ package chain_test
 import (
 	"testing"
 
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/libs/lvldb"
-	"github.com/meterio/supernova/types"
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/meterio/supernova/libs/p2p/types"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p/types"
 	"github.com/prysmaticlabs/prysm/v5/config/params"
 	"github.com/prysmaticlabs/prysm/v5/consensus-types/primitives"
 	"github.com/prysmaticlabs/prysm/v5/encoding/bytesutil"

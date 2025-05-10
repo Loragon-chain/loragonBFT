@@ -1,4 +1,4 @@
-module github.com/meterio/supernova
+module github.com/Loragon-chain/loragon-consensus
 
 go 1.23.1
 

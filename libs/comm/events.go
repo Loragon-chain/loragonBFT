@@ -8,7 +8,7 @@ package comm
 import (
 	"context"
 
-	"github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/block"
 )
 
 // NewBlockEvent event emitted when received block announcement.

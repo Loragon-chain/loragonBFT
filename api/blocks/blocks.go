@@ -11,11 +11,11 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Loragon-chain/loragon-consensus/api/utils"
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/gorilla/mux"
-	"github.com/meterio/supernova/api/utils"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/types"
 	"github.com/pkg/errors"
 )
 

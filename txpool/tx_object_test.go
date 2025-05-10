@@ -9,12 +9,12 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
 	cmttypes "github.com/cometbft/cometbft/types"
 	db "github.com/cosmos/cosmos-db"
-	"github.com/meterio/supernova/block"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/libs/lvldb"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -8,7 +8,7 @@ package chain
 import (
 	"sync/atomic"
 
-	"github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/block"
 )
 
 type rawBlock struct {

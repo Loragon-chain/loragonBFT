@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package message;
 
-option go_package = "github.com/meterio/supernova/libs/message;message";
+option go_package = "github.com/Loragon-chain/loragon-consensus/libs/message;message";
 
 message RPCEnvelope {
   uint32 msgType = 1;

@@ -6,7 +6,7 @@
 package node
 
 import (
-	"github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/block"
 )
 
 type blockStats struct {

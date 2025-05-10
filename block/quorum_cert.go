@@ -11,9 +11,9 @@ import (
 	"io"
 	"log/slog"
 
+	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	"github.com/Loragon-chain/loragon-consensus/types"
 	"github.com/ethereum/go-ethereum/rlp"
-	cmn "github.com/meterio/supernova/libs/common"
-	"github.com/meterio/supernova/types"
 )
 
 type QuorumCert struct {

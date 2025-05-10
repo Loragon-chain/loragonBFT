@@ -6,7 +6,7 @@
 package lvldb
 
 import (
-	"github.com/meterio/supernova/libs/kv"
+	"github.com/Loragon-chain/loragon-consensus/libs/kv"
 	"github.com/syndtr/goleveldb/leveldb"
 	dberrors "github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/filter"

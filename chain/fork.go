@@ -6,7 +6,7 @@
 package chain
 
 import (
-	"github.com/meterio/supernova/block"
+	"github.com/Loragon-chain/loragon-consensus/block"
 )
 
 // Fork describes forked chain.

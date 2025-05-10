@@ -13,13 +13,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Loragon-chain/loragon-consensus/api/node"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/genesis"
+	"github.com/Loragon-chain/loragon-consensus/libs/comm"
+	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
+	"github.com/Loragon-chain/loragon-consensus/txpool"
 	"github.com/gorilla/mux"
-	"github.com/meterio/supernova/api/node"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/genesis"
-	"github.com/meterio/supernova/libs/comm"
-	"github.com/meterio/supernova/libs/lvldb"
-	"github.com/meterio/supernova/txpool"
 	"github.com/stretchr/testify/assert"
 )
 

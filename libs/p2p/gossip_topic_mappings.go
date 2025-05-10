@@ -3,7 +3,7 @@ package p2p
 import (
 	"reflect"
 
-	"github.com/meterio/supernova/libs/message"
+	"github.com/Loragon-chain/loragon-consensus/libs/message"
 	"github.com/prysmaticlabs/prysm/v5/config/params"
 	"github.com/prysmaticlabs/prysm/v5/consensus-types/primitives"
 	ethpb "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"

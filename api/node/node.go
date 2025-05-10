@@ -9,11 +9,11 @@ import (
 	"encoding/hex"
 	"net/http"
 
+	"github.com/Loragon-chain/loragon-consensus/api/utils"
+	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragon-consensus/consensus"
+	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
 	"github.com/gorilla/mux"
-	"github.com/meterio/supernova/api/utils"
-	"github.com/meterio/supernova/chain"
-	"github.com/meterio/supernova/consensus"
-	"github.com/meterio/supernova/libs/p2p"
 )
 
 type Node struct {
