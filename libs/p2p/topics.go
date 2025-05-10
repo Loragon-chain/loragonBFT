@@ -53,5 +53,5 @@ const (
 	// BlobSubnetTopicFormat is the topic format for the blob subnet.
 	BlobSubnetTopicFormat = GossipProtocolAndDigest + GossipBlobSidecarMessage + "_%d"
 
-	ConsensusTopic = "/supernova/consensus"
+	ConsensusTopic = "/loragon/consensus"
 )

@@ -133,7 +133,7 @@ func NewNode(
 	privValidator.Key.PubKey.Bytes()
 	blsMaster := types.NewBlsMasterWithCometKeys(privValidator.Key.PrivKey, privValidator.Key.PubKey)
 
-	slog.Info("Supernova start ...", "version", config.BaseConfig.Version)
+	slog.Info("Loragon Consensus start ...", "version", config.BaseConfig.Version)
 
 	// Create the proxyApp and establish connections to the ABCI app (consensus, mempool, query).
 	proxyApp, err := createAndStartProxyAppConns(clientCreator, cmtproxy.NopMetrics())
@@ -207,7 +207,7 @@ func NewNode(
     PubKey          [ %v ]
     API portal      [ %v ]
 `,
-		types.MakeName("Supernova", config.BaseConfig.Version),
+		types.MakeName("Loragon", config.BaseConfig.Version),
 		geneBlock.ID(),
 		bestBlock.ID(), bestBlock.Number(), time.Unix(int64(bestBlock.Timestamp()), 0),
 		types.GetForkConfig(geneBlock.ID()),

@@ -45,7 +45,7 @@ const BlobSidecarsByRangeName = "/blob_sidecars_by_range"
 const BlobSidecarsByRootName = "/blob_sidecars_by_root"
 
 const (
-	RPCProtocolPrefix = "/supernova/rpc"
+	RPCProtocolPrefix = "/loragon/rpc"
 	// V1 RPC Topics
 	// RPCStatusTopicV1 defines the v1 topic for the status rpc method.
 	RPCStatusTopicV1 = protocolPrefix + StatusMessageName + SchemaVersionV1
