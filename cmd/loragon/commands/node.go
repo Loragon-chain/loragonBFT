@@ -103,7 +103,7 @@ func RunNodeCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "start",
 		Aliases: []string{"node", "run"},
-		Short:   "Run the Supernova node",
+		Short:   "Run the Loragon node",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := checkGenesisHash(config); err != nil {
 				return err

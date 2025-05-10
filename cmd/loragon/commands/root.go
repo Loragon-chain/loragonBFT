@@ -22,7 +22,7 @@ var (
 
 func DefaultConfig() *cmtcfg.Config {
 	config := cmtcfg.DefaultConfig()
-	config.BaseConfig.RootDir = os.ExpandEnv(filepath.Join("$HOME", ".supernova"))
+	config.BaseConfig.RootDir = os.ExpandEnv(filepath.Join("$HOME", ".loragon"))
 	config.ProxyApp = "noop"
 	return config
 }
@@ -77,7 +77,7 @@ func ParseConfig(cmd *cobra.Command) (*cmtcfg.Config, error) {
 
 // RootCmd is the root command for CometBFT core.
 var RootCmd = &cobra.Command{
-	Use:   "supernova",
+	Use:   "loragon",
 	Short: "Hotstuff2 state machine replication for applications in any programming languages",
 	PersistentPreRunE: func(cmd *cobra.Command, _ []string) (err error) {
 		if cmd.Name() == VersionCmd.Name() {

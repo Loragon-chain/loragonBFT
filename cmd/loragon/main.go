@@ -12,7 +12,7 @@ import (
 
 	_ "net/http/pprof"
 
-	"github.com/Loragon-chain/loragon-consensus/cmd/supernova/commands"
+	"github.com/Loragon-chain/loragon-consensus/cmd/loragon/commands"
 	"github.com/Loragon-chain/loragon-consensus/txpool"
 	cmtcmd "github.com/cometbft/cometbft/cmd/cometbft/commands"
 	"github.com/cometbft/cometbft/cmd/cometbft/commands/debug"
@@ -20,10 +20,10 @@ import (
 )
 
 var (
-	DefaultSupernovaDir = ".supernova"
-	gitCommit           string
-	gitTag              string
-	keyStr              string
+	DefaultLoragonDir = ".loragon"
+	gitCommit         string
+	gitTag            string
+	keyStr            string
 
 	defaultTxPoolOptions = txpool.Options{
 		Limit:           200000,
@@ -50,7 +50,7 @@ func main() {
 		cli.NewCompletionCmd(rootCmd, true),
 	)
 
-	cmd := cli.PrepareBaseCmd(rootCmd, "NOVA", os.ExpandEnv(filepath.Join("$HOME", DefaultSupernovaDir)))
+	cmd := cli.PrepareBaseCmd(rootCmd, "LORAGON", os.ExpandEnv(filepath.Join("$HOME", DefaultLoragonDir)))
 	if err := cmd.Execute(); err != nil {
 		panic(err)
 	}
