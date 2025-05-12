@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/OffchainLabs/prysm/v6/cmd/beacon-chain/flags"
+	"github.com/OffchainLabs/prysm/v6/config/features"
+	"github.com/OffchainLabs/prysm/v6/crypto/rand"
 	"github.com/libp2p/go-libp2p/core/peer"
-	"github.com/prysmaticlabs/prysm/v5/cmd/beacon-chain/flags"
-	"github.com/prysmaticlabs/prysm/v5/config/features"
-	"github.com/prysmaticlabs/prysm/v5/crypto/rand"
 )
 
 var _ Scorer = (*BlockProviderScorer)(nil)

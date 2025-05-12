@@ -16,8 +16,8 @@ import (
 	"github.com/Loragon-chain/loragon-consensus/chain"
 	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/prysmaticlabs/prysm/v5/crypto/bls"
 )
 
 // This is part of pacemaker that in charge of:

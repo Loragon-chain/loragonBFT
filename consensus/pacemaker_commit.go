@@ -89,10 +89,11 @@ func (p *Pacemaker) CommitBlock(blk *block.Block, escortQC *block.QuorumCert) er
 
 	for _, pid := range p.p2pSrv.Peers().All() {
 		p.logger.Debug("rpc call", "protocol", p2p.RPCProtocolPrefix, "toPeer", pid, "msg", msgName)
-		_, err := p.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+		stream, err := p.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
 		if err != nil {
 			p.logger.Error("cant send ", "err", err)
 		}
+		p.p2pSrv.CloseStream(stream)
 	}
 
 	return nil

@@ -13,6 +13,9 @@ import (
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
+	ethpb "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
+	"github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1/metadata"
+	"github.com/OffchainLabs/prysm/v6/testing/require"
 	"github.com/ethereum/go-ethereum/p2p/enode"
 	"github.com/ethereum/go-ethereum/p2p/enr"
 	"github.com/libp2p/go-libp2p"
@@ -27,9 +30,6 @@ import (
 	"github.com/libp2p/go-libp2p/p2p/transport/tcp"
 	"github.com/multiformats/go-multiaddr"
 	ssz "github.com/prysmaticlabs/fastssz"
-	ethpb "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
-	"github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1/metadata"
-	"github.com/prysmaticlabs/prysm/v5/testing/require"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/proto"
 )
@@ -120,9 +120,15 @@ func (p *TestP2P) ReceiveRPC(topic string, msg proto.Message) {
 	if err != nil {
 		p.t.Fatalf("Failed to open stream %v", err)
 	}
+
+	// Modify defer function to ensure no duplicated close after CloseWrite
+	closeWriteDone := false
 	defer func() {
-		if err := s.Close(); err != nil {
-			p.t.Log(err)
+		if !closeWriteDone {
+			// If CloseWrite was not successfully called, try to close the entire stream
+			if err := s.Close(); err != nil {
+				p.t.Log(err)
+			}
 		}
 	}()
 
@@ -132,10 +138,19 @@ func (p *TestP2P) ReceiveRPC(topic string, msg proto.Message) {
 	}
 	n, err := p.Encoding().EncodeWithMaxLength(s, castedMsg)
 	if err != nil {
-		_err := s.Reset()
-		_ = _err
+		if resetErr := s.Reset(); resetErr != nil {
+			p.t.Logf("Failed to reset stream after encoding error: %v", resetErr)
+		}
 		p.t.Fatalf("Failed to encode message: %v", err)
 	}
+
+	if err := s.CloseWrite(); err != nil {
+		if resetErr := s.Reset(); resetErr != nil {
+			p.t.Logf("Failed to reset stream after CloseWrite error: %v", resetErr)
+		}
+		p.t.Fatalf("Failed to close write: %v", err)
+	}
+	closeWriteDone = true
 
 	p.t.Logf("Wrote %d bytes", n)
 }
@@ -347,24 +362,33 @@ func (p *TestP2P) Send(ctx context.Context, msg interface{}, topic string, pid p
 		return nil, err
 	}
 
+	// Reset stream on error to prevent resource leaks
+	resetOnError := func(err error) error {
+		if err != nil {
+			// Try to reset the stream, ignore any reset errors
+			if resetErr := stream.Reset(); resetErr != nil {
+				p.t.Logf("Failed to reset stream: %v", resetErr)
+			}
+			return err
+		}
+		return nil
+	}
+
 	if !metadataTopics[topic] {
 		castedMsg, ok := msg.(ssz.Marshaler)
 		if !ok {
-			p.t.Fatalf("%T doesn't support ssz marshaler", msg)
+			return nil, resetOnError(fmt.Errorf("%T doesn't support ssz marshaler", msg))
 		}
 		if _, err := p.Encoding().EncodeWithMaxLength(stream, castedMsg); err != nil {
-			_err := stream.Reset()
-			_ = _err
-			return nil, err
+			return nil, resetOnError(err)
 		}
 	}
 
 	// Close stream for writing.
 	if err := stream.CloseWrite(); err != nil {
-		_err := stream.Reset()
-		_ = _err
-		return nil, err
+		return nil, resetOnError(err)
 	}
+
 	// Delay returning the stream for testing purposes
 	if p.DelaySend {
 		time.Sleep(1 * time.Second)

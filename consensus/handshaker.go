@@ -25,8 +25,7 @@ type Handshaker struct {
 	nBlocks int // number of blocks applied to the state
 }
 
-func NewHandshaker(c *chain.Chain, genDoc *cmttypes.GenesisDoc,
-) *Handshaker {
+func NewHandshaker(c *chain.Chain, genDoc *cmttypes.GenesisDoc) *Handshaker {
 	return &Handshaker{
 		chain:    c,
 		eventBus: cmttypes.NopEventBus{},
@@ -53,20 +52,28 @@ func (h *Handshaker) NBlocks() int {
 
 // TODO: retry the handshake/replay if it fails ?
 func (h *Handshaker) Handshake(ctx context.Context, proxyApp proxy.AppConns) error {
-	fmt.Println("Start handshake")
+	h.logger.Info("Start handshake")
 	// Handshake is done via ABCI Info on the query conn.
 	res, err := proxyApp.Query().Info(ctx, proxy.InfoRequest)
 	if err != nil {
+		h.logger.Error("error calling Info", "err", err)
 		return fmt.Errorf("error calling Info: %v", err)
 	}
 
 	blockHeight := res.LastBlockHeight
 	if blockHeight < 0 {
+		h.logger.Error("got a negative last block height", "height", blockHeight)
 		return fmt.Errorf("got a negative last block height (%d) from the app", blockHeight)
 	}
 	appHash := res.LastBlockAppHash
 
 	h.logger.Info("ABCI Handshake App Info",
+		"height", blockHeight,
+		"hash", log.NewLazySprintf("%X", appHash),
+		"software-version", res.Version,
+		"protocol-version", res.AppVersion,
+	)
+	fmt.Println("ABCI Handshake App Info",
 		"height", blockHeight,
 		"hash", log.NewLazySprintf("%X", appHash),
 		"software-version", res.Version,
@@ -83,10 +90,13 @@ func (h *Handshaker) Handshake(ctx context.Context, proxyApp proxy.AppConns) err
 	// Replay blocks up to the latest in the blockstore.
 	appHash, err = h.ReplayBlocks(ctx, appHash, blockHeight, proxyApp)
 	if err != nil {
+		h.logger.Error("error on replay", "err", err)
 		return fmt.Errorf("error on replay: %v", err)
 	}
 
 	h.logger.Info("Completed ABCI Handshake - CometBFT and App are synced",
+		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash))
+	fmt.Println("Completed ABCI Handshake - CometBFT and App are synced",
 		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash))
 
 	// TODO: (on restart) replay mempool
@@ -115,20 +125,33 @@ func (h *Handshaker) ReplayBlocks(
 		appBlockHeight,
 		"storeHeight",
 		storeBlockHeight)
+	fmt.Println("ABCI Replay Blocks",
+		"appHeight",
+		appBlockHeight,
+		"storeBlockHeight",
+		storeBlockHeight)
 
 	// If appBlockHeight == 0 it means that we are at genesis and hence should send InitChain.
 	if appBlockHeight == 0 {
 		validators := make([]*cmttypes.Validator, len(h.genDoc.Validators))
 		for i, val := range h.genDoc.Validators {
+			fmt.Println("Checking validator:", i, "address:", val.Address)
+			fmt.Println("Key type:", val.PubKey.Type())
+
 			// Ensure that the public key type is supported.
 			if _, ok := cmttypes.ABCIPubKeyTypesToNames[val.PubKey.Type()]; !ok {
-				fmt.Println("ERROR:! unspported key type ", val.PubKey.Type(), val.Name)
 				return nil, fmt.Errorf("unsupported public key type %s (validator name: %s)", val.PubKey.Type(), val.Name)
 			}
+			fmt.Println("Validator check passed")
 			validators[i] = cmttypes.NewValidator(val.PubKey, val.Power)
 		}
+
 		validatorSet := cmttypes.NewValidatorSet(validators)
 		nextVals := cmttypes.TM2PB.ValidatorUpdates(validatorSet)
+		for _, val := range nextVals {
+			h.logger.Info("Next validators:", val.PubKeyType)
+		}
+
 		pbparams := h.genDoc.ConsensusParams.ToProto()
 		req := &abci.InitChainRequest{
 			Time:            h.genDoc.GenesisTime,
@@ -138,34 +161,45 @@ func (h *Handshaker) ReplayBlocks(
 			Validators:      nextVals,
 			AppStateBytes:   h.genDoc.AppState,
 		}
-		fmt.Println("Consensus Params: ", pbparams)
-		fmt.Println("Consensus Params: ", pbparams.Version, pbparams.Block.MaxBytes, pbparams.Block.MaxBytes, pbparams.Evidence.MaxAgeDuration)
+
+		h.logger.Info("InitChain request:", req)
+
 		res, err := proxyApp.Consensus().InitChain(context.TODO(), req)
 		if err != nil {
+			h.logger.Error("InitChain failed: ", "err", err)
 			fmt.Println("InitChain failed: ", err)
 			return nil, err
 		}
-
+		h.logger.Info("InitChain Response Validators: ", res)
 		appHash = res.AppHash
-		fmt.Println("InitChain Response Validators: ", len(res.Validators))
+		// fmt.Println("InitChain Response Validators: ", len(res.Validators))
+		h.logger.Info("InitChain Response Validators: ", len(res.Validators))
+
+		// h.logger.Info("InitChain genesis validator", h.genDoc.Validators,
+		// 	"initChain response validators", res.Validators)
 
 		gene := genesis.NewGenesis(h.genDoc, res.Validators)
 
 		err = h.chain.Initialize(gene)
 		if err != nil {
 			h.logger.Error("chain initialize failed", "err", err)
+			return nil, err
 		}
+		// fmt.Println("chain initialized, best block", h.chain.BestBlock().Number())
 
 		for i, v := range res.Validators {
 			fmt.Println(" ", i, ": ", v.PubKeyType, hex.EncodeToString(v.PubKeyBytes))
 		}
 		err = h.chain.SaveInitChainResponse(res)
 		if err != nil {
-			fmt.Println("Save InitChainResponse failed", err)
+			h.logger.Error("Save InitChainResponse failed", "err", err)
+			// fmt.Println("Save InitChainResponse failed", err)
+			return nil, err
 		}
 	} else {
 		err := h.chain.Initialize(nil)
 		if err != nil {
+			h.logger.Error("chain initialize failed", "err", err)
 			return nil, err
 		}
 

@@ -5,6 +5,8 @@ import (
 
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
+	ethpb "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
+	"github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1/metadata"
 	"github.com/ethereum/go-ethereum/p2p/enr"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/libp2p/go-libp2p/core/connmgr"
@@ -12,8 +14,6 @@ import (
 	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/multiformats/go-multiaddr"
-	ethpb "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
-	"github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1/metadata"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -90,6 +90,7 @@ type PeerManager interface {
 // Sender abstracts the sending functionality from libp2p.
 type Sender interface {
 	Send(context.Context, interface{}, string, peer.ID) (network.Stream, error)
+	CloseStream(stream network.Stream)
 }
 
 // PeersProvider abstracts obtaining our current list of known peers status.

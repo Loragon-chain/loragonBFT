@@ -1,7 +1,7 @@
 # Loragon Consensus
 
 Loragon Consensus is a Cosmos SDK v2 compatible consensus engine designed to be a drop in replacement for CometBFT v1.
-The following features are implemented in this version of Loragon Consensus
+The following features are implemented in this version of LoragonCore
 
 1. August, 2024 version of HotStuff 1 latency consensus alogrithm (the original HotStuff-2 consensus
    has been running on Meter mainnet with more than 300 physical committee validator ndoes for more than 4 years).

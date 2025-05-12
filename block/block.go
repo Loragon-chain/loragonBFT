@@ -18,10 +18,10 @@ import (
 
 	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/prysmaticlabs/prysm/v5/crypto/bls"
 )
 
 const (

@@ -79,10 +79,10 @@ func New(chain *chain.Chain, options Options) *TxPool {
 }
 
 func (p *TxPool) housekeeping() {
-	p.logger.Debug("enter housekeeping")
-	defer p.logger.Debug("leave housekeeping")
+	p.logger.Debug("enter txpool housekeeping")
+	defer p.logger.Debug("leave txpool housekeeping")
 
-	washInterval := time.Second
+	washInterval := time.Second //10 * time.Millisecond
 	ticker := time.NewTicker(washInterval)
 	defer ticker.Stop()
 
@@ -92,6 +92,7 @@ func (p *TxPool) housekeeping() {
 	for {
 		select {
 		case <-p.done:
+			p.logger.Debug("txpool housekeeping done")
 			return
 		case <-ticker.C:
 			var headBlockChanged bool
@@ -101,6 +102,7 @@ func (p *TxPool) housekeeping() {
 			}
 			if !isChainSynced(uint64(time.Now().Unix()), headBlock.Timestamp) {
 				// skip washing txs if not synced
+				p.logger.Debug("chain not synced, skip washing txs")
 				continue
 			}
 			poolLen := p.all.Len()

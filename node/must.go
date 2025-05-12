@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/Loragon-chain/loragon-consensus/chain"
@@ -21,8 +22,28 @@ import (
 	cli "gopkg.in/urfave/cli.v1"
 )
 
+func extractModuleLogLevel(configStr, moduleName string) string {
+	modules := strings.Split(configStr, ",")
+
+	for _, module := range modules {
+		parts := strings.Split(module, ":")
+		if len(parts) == 2 && parts[0] == moduleName {
+			return parts[1]
+		}
+	}
+
+	for _, module := range modules {
+		parts := strings.Split(module, ":")
+		if len(parts) == 2 && parts[0] == "*" {
+			return parts[1]
+		}
+	}
+
+	return "info"
+}
+
 func InitLogger(config *cmtcfg.Config) {
-	lvl := config.BaseConfig.LogLevel
+	lvl := extractModuleLogLevel(config.BaseConfig.LogLevel, "comet")
 	logLevel := slog.LevelDebug
 	switch lvl {
 	case "DEBUG":

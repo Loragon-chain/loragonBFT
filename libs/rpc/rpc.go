@@ -146,14 +146,17 @@ func (s *RPCServer) handleRPC(stream network.Stream) {
 				BestBlockNum:   best.Number(),
 			}, true)
 	case NEW_BLOCK:
-		escortedBlk := &block.EscortedBlock{}
-		err = rlp.DecodeBytes(env.Raw, escortedBlk)
+		newBlock := &block.Block{}
+		err = rlp.DecodeBytes(env.Raw, newBlock)
 		if err != nil {
 			break
 		}
 
 		s.newBlockFeed.Send(&NewBlockEvent{
-			EscortedBlock: escortedBlk,
+			EscortedBlock: &block.EscortedBlock{
+				Block:    newBlock,
+				EscortQC: s.chain.BestQC(),
+			},
 		})
 
 	case NEW_BLOCK_ID:
@@ -165,7 +168,7 @@ func (s *RPCServer) handleRPC(stream network.Stream) {
 
 	case NEW_TX:
 		newTx := env.Raw
-		s.txPool.StrictlyAdd(newTx)
+		err = s.txPool.StrictlyAdd(newTx)
 
 	case GET_BLOCK_BY_ID:
 		blockID := types.BytesToBytes32(env.Raw[:32])
@@ -239,7 +242,7 @@ func (s *RPCServer) handleRPC(stream network.Stream) {
 		err = s.Reply(stream, GET_BLOCKS_FROM_NUM, result, true)
 	case GET_TXS:
 		// FIXME: impl this
-
+		s.logger.Info("need to implement get txs")
 	}
 	if err != nil {
 		s.logger.Warn(fmt.Sprintf("failed to write %v response", msgName), "err", err)

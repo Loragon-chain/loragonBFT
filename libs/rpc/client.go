@@ -43,6 +43,7 @@ type RPC interface {
 func (s *RPCServer) GetStatus(pid peer.ID) (*Status, error) {
 	env := &message.RPCEnvelope{MsgType: GET_STATUS, Raw: make([]byte, 0), IsResponse: false}
 	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +72,8 @@ func (s *RPCServer) decode(stream network.Stream, decoded interface{}) error {
 // NotifyNewBlockID notify new block ID to remote peer.
 func (s *RPCServer) NotifyNewBlockID(pid peer.ID, id types.Bytes32) error {
 	env := &message.RPCEnvelope{MsgType: NEW_BLOCK_ID, Raw: id[:], IsResponse: false}
-	_, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	return err
 }
 
@@ -82,14 +84,16 @@ func (s *RPCServer) NotifyNewBlock(pid peer.ID, escortedBlk *block.EscortedBlock
 		return err
 	}
 	env := &message.RPCEnvelope{MsgType: NEW_BLOCK, Raw: raw, IsResponse: false}
-	_, err = s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	return err
 }
 
 // NotifyNewTx notify new tx to remote peer.
 func (s *RPCServer) NotifyNewTx(pid peer.ID, tx cmttypes.Tx) error {
 	env := &message.RPCEnvelope{MsgType: NEW_TX, Raw: tx, IsResponse: false}
-	_, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	return err
 }
 
@@ -98,6 +102,7 @@ func (s *RPCServer) NotifyNewTx(pid peer.ID, tx cmttypes.Tx) error {
 func (s *RPCServer) GetBlockByID(pid peer.ID, id types.Bytes32) (*block.EscortedBlock, error) {
 	env := &message.RPCEnvelope{MsgType: GET_BLOCK_BY_ID, Raw: id[:], IsResponse: false}
 	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	if err != nil {
 		return nil, err
 	}
@@ -118,6 +123,7 @@ func (s *RPCServer) GetBlocksFromNumber(pid peer.ID, num uint32) ([]*block.Escor
 	}
 	env := &message.RPCEnvelope{MsgType: GET_BLOCKS_FROM_NUM, Raw: raw, IsResponse: false}
 	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +141,7 @@ func (s *RPCServer) GetBlocksFromNumber(pid peer.ID, num uint32) ([]*block.Escor
 func (s *RPCServer) GetTxs(pid peer.ID) (types.Transactions, error) {
 	env := &message.RPCEnvelope{MsgType: GET_TXS, Raw: make([]byte, 0), IsResponse: false}
 	stream, err := s.p2pSrv.Send(context.Background(), env, p2p.RPCProtocolPrefix, pid)
+	defer s.p2pSrv.CloseStream(stream)
 	if err != nil {
 		return nil, err
 	}

@@ -2,9 +2,9 @@ package scorers
 
 import (
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	pbrpc "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/pkg/errors"
-	pbrpc "github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1"
 )
 
 var _ Scorer = (*GossipScorer)(nil)

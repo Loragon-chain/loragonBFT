@@ -15,7 +15,7 @@ import (
 	cmtcrypto "github.com/cometbft/cometbft/crypto"
 	cmttypes "github.com/cometbft/cometbft/types"
 
-	"github.com/prysmaticlabs/prysm/v5/crypto/bls"
+	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 )
 
 type EpochState struct {

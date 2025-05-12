@@ -9,10 +9,10 @@ import (
 
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	prysmTime "github.com/OffchainLabs/prysm/v6/time"
 	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/pkg/errors"
-	prysmTime "github.com/prysmaticlabs/prysm/v5/time"
 	"github.com/sirupsen/logrus"
 )
 

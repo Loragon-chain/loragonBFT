@@ -7,7 +7,7 @@ import (
 	"github.com/Loragon-chain/loragon-consensus/block"
 	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
 	"github.com/Loragon-chain/loragon-consensus/types"
-	"github.com/prysmaticlabs/prysm/v5/crypto/bls"
+	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 )
 
 type timeoutVoteKey struct {

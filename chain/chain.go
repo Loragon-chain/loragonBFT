@@ -108,7 +108,10 @@ func New(kv db.DB, verbose bool) (*Chain, error) {
 func (c *Chain) Initialize(gene *genesis.Genesis) error {
 	var bestBlock *block.Block
 
-	if bestBlockID, _ := loadBestBlockID(c.kv); bytes.Equal(bestBlockID.Bytes(), (&types.Bytes32{}).Bytes()) {
+	bestBlockID, _ := loadBestBlockID(c.kv)
+	c.logger.Info("Initializing chain", "bestBlockID", bestBlockID)
+
+	if bytes.Equal(bestBlockID.Bytes(), (&types.Bytes32{}).Bytes()) {
 		// could not load bestblock, usually this means chain is not initialized
 		genesisBlock, err := gene.Build()
 		if err != nil {
@@ -174,7 +177,7 @@ func (c *Chain) Initialize(gene *genesis.Genesis) error {
 	} else {
 		// chain is initialized in db
 		// load them into chain object
-		fmt.Println("chain is initialized in db")
+		c.logger.Info("chain is initialized in db")
 
 		existGenesisID, err := loadBlockHash(c.kv, 0)
 		if err != nil {
@@ -189,6 +192,8 @@ func (c *Chain) Initialize(gene *genesis.Genesis) error {
 		if err != nil {
 			return err
 		}
+		c.logger.Info("check vset and nextVset", "vsetHash", geneBlock.ValidatorsHash(), "nextVsetHash", geneBlock.NextValidatorsHash())
+
 		nxtVSet, err := loadValidatorSet(c.kv, geneBlock.NextValidatorsHash())
 		if err != nil {
 			return err
@@ -208,8 +213,8 @@ func (c *Chain) Initialize(gene *genesis.Genesis) error {
 		if _, err = loadBestQC(c.kv); err != nil {
 			saveBestQC(c.kv, geneEscortQC)
 		}
-
 	}
+
 	bestQC, err := loadBestQC(c.kv)
 	if err != nil {
 		return err
@@ -234,7 +239,7 @@ func (c *Chain) Initialize(gene *genesis.Genesis) error {
 	bestHeightGauge.Set(float64(bestBlock.Number()))
 	bestQCHeightGauge.Set(float64(bestQC.Number()))
 
-	c.logger.Info("Chain initialized", "best", bestBlock.CompactString(), "bestQC", bestQC.String())
+	c.logger.Info("Chain initialized", "best", bestBlock.CompactString(), "bestQC", bestQC.String(), "bestBlockID", bestBlock.ID())
 	return nil
 }
 
@@ -321,16 +326,19 @@ func (c *Chain) AddBlock(newBlock *block.Block, escortQC *block.QuorumCert) (*Fo
 	// finalized block need to have a finalized parent block
 	raw, err := rlp.EncodeToBytes(newBlock)
 	if err != nil {
+		c.logger.Error("could not encode block", "err", err)
 		return nil, err
 	}
 
 	batch := c.kv.NewBatch()
 
 	if err := saveBlockRaw(batch, newBlockID, raw); err != nil {
+		c.logger.Error("could not save block raw", "err", err)
 		return nil, err
 	}
 
 	if err := saveBlockHash(batch, newBlock.Number(), newBlockID); err != nil {
+		c.logger.Error("could not save block hash", "err", err)
 		return nil, err
 	}
 
@@ -338,7 +346,8 @@ func (c *Chain) AddBlock(newBlock *block.Block, escortQC *block.QuorumCert) (*Fo
 		c.logger.Debug(fmt.Sprintf("saving tx meta for %s", tx.Hash()), "block", newBlock.Number())
 		meta, err := loadTxMeta(c.kv, tx.Hash())
 		if err != nil {
-			if !c.IsNotFound(err) {
+			if !c.IsNotFound(err) && err.Error() != "EOF" {
+				c.logger.Error("could not load tx meta", "tx", tx.Hash(), "err", err)
 				return nil, err
 			}
 		}
@@ -347,6 +356,7 @@ func (c *Chain) AddBlock(newBlock *block.Block, escortQC *block.QuorumCert) (*Fo
 			Index:   uint64(i),
 		})
 		if err := saveTxMeta(batch, tx.Hash(), meta); err != nil {
+			c.logger.Error("could not save tx meta", "tx", tx.Hash(), "err", err)
 			return nil, err
 		}
 	}
@@ -356,10 +366,12 @@ func (c *Chain) AddBlock(newBlock *block.Block, escortQC *block.QuorumCert) (*Fo
 	// c.logger.Info("isTrunk", "blk", newBlock.Number(), "isTrunk", isTrunk)
 	if isTrunk {
 		if fork, err = c.buildFork(newBlock.Header(), c.bestBlock.Header()); err != nil {
+			c.logger.Error("could not build fork", "err", err)
 			return nil, err
 		}
 
 		if err := batchSaveBestBlockID(batch, newBlockID); err != nil {
+			c.logger.Error("could not save best block id", "err", err)
 			return nil, err
 		}
 		c.bestBlock = newBlock
@@ -381,6 +393,7 @@ func (c *Chain) AddBlock(newBlock *block.Block, escortQC *block.QuorumCert) (*Fo
 	}
 
 	if err := batch.Write(); err != nil {
+		c.logger.Error("could not write batch", "err", err)
 		return nil, err
 	}
 
@@ -874,7 +887,9 @@ func (c *Chain) GetBestNextValidatorSet() *cmttypes.ValidatorSet {
 }
 
 func (c *Chain) GetBestValidatorSet() *cmttypes.ValidatorSet {
+	c.logger.Info("GetBestValidatorSet", "hash", c.bestBlock.ValidatorsHash())
 	vset, err := loadValidatorSet(c.kv, c.bestBlock.ValidatorsHash())
+	c.logger.Debug("get best validator set", "hash", c.bestBlock.ValidatorsHash(), "num", c.bestBlock.Number(), "err", err)
 	if err != nil {
 		c.logger.Warn("could not load vset", "hash", c.bestBlock.ValidatorsHash(), "num", c.bestBlock.Number(), "err", err)
 		return nil
@@ -981,10 +996,10 @@ func (c *Chain) GetQCForBlock(blkID types.Bytes32) (*block.QuorumCert, error) {
 // use buildLastCommitInfoFromStore.
 func (c *Chain) BuildLastCommitInfo(parent *block.Block, blk *block.Block) abci.CommitInfo {
 	vset := c.GetValidatorsByHash(parent.ValidatorsHash())
-	// if blk.Number() == 0 {
-	// 	fmt.Println("parent is genesis", parent.NextValidatorsHash())
-	// 	vset = c.GetValidatorsByHash(parent.NextValidatorsHash())
-	// }
+	if blk.Number() == 0 {
+		fmt.Println("parent is genesis", parent.NextValidatorsHash())
+		vset = c.GetValidatorsByHash(parent.NextValidatorsHash())
+	}
 	qc := blk.QC
 	if vset == nil {
 		if parent.Number() == 0 {
@@ -999,20 +1014,29 @@ func (c *Chain) BuildLastCommitInfo(parent *block.Block, blk *block.Block) abci.
 		votesSize    = qc.BitArray.Size()
 	)
 
+	// fmt.Printf("BuildLastCommitInfo, commiteeSize: %d, votesSize: %d, qc.Round: %d, blk.Number: %d, parent: %v\n", commiteeSize, votesSize, qc.Round, blk.Number(), parent)
+
 	if commiteeSize != votesSize {
 		panic(fmt.Sprintf("committee size (%d) doesn't match with votes size (%d) at height %d", commiteeSize, votesSize, blk.Number()))
 	}
 
-	votes := make([]abci.VoteInfo, vset.Size())
+	// votes := make([]abci.VoteInfo, vset.Size())
+	votes := make([]abci.VoteInfo, 0)
 	for i := 0; i < votesSize; i++ {
 		if qc.BitArray.GetIndex(i) {
 			_, v := vset.GetByIndex(int32(i))
-			votes[i] = abci.VoteInfo{
+			// votes[i] = abci.VoteInfo{
+			// 	Validator:   abci.Validator{Address: v.Address.Bytes(), Power: int64(v.VotingPower)},
+			// 	BlockIdFlag: cmtproto.BlockIDFlagCommit,
+			// }
+			votes = append(votes, abci.VoteInfo{
 				Validator:   abci.Validator{Address: v.Address.Bytes(), Power: int64(v.VotingPower)},
 				BlockIdFlag: cmtproto.BlockIDFlagCommit,
-			}
+			})
 		}
 	}
+
+	// fmt.Printf("BuildLastCommitInfo, votes: %v, blk.Number: %d, qc.Round: %d, vset: %v, bitarray: %v\n", votes, blk.Number(), qc.Round, vset, qc.BitArray)
 
 	return abci.CommitInfo{Round: int32(qc.Round), Votes: votes}
 }

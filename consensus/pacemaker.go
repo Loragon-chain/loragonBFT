@@ -26,10 +26,10 @@ import (
 )
 
 const (
-	RoundInterval        = 2 * time.Second
-	RoundTimeoutInterval = RoundInterval * 4 // round timeout 8 secs.
-	ProposeTimeLimit     = 1300 * time.Millisecond
-	BroadcastTimeLimit   = 1400 * time.Millisecond
+	// RoundInterval        = time.Second        //200 * time.Millisecond
+	// RoundTimeoutInterval = RoundInterval * 10 // round timeout 1000 ms.
+	ProposeTimeLimit   = 500 * time.Millisecond
+	BroadcastTimeLimit = 1400 * time.Millisecond
 )
 
 type Pacemaker struct {
@@ -82,9 +82,14 @@ type Pacemaker struct {
 	txsAddedAfterPropose int
 
 	validatorSetRegistry *ValidatorSetRegistry
+
+	mainLoopStarted bool
+
+	RoundTimeoutInterval time.Duration
+	RoundInterval        time.Duration
 }
 
-func NewPacemaker(ctx context.Context, version string, c *chain.Chain, txpool *txpool.TxPool, p2pSrv p2p.P2P, blsMaster *types.BlsMaster, proxyApp cmtproxy.AppConns) *Pacemaker {
+func NewPacemaker(ctx context.Context, version string, c *chain.Chain, txpool *txpool.TxPool, p2pSrv p2p.P2P, blsMaster *types.BlsMaster, proxyApp cmtproxy.AppConns, roundTimeoutInterval time.Duration) *Pacemaker {
 	p := &Pacemaker{
 		ctx:       ctx,
 		logger:    slog.With("pkg", "pm"),
@@ -107,7 +112,12 @@ func NewPacemaker(ctx context.Context, version string, c *chain.Chain, txpool *t
 		timeoutCounter:       0,
 		lastOnBeatRound:      -1,
 		validatorSetRegistry: NewValidatorSetRegistry(c),
+
+		RoundTimeoutInterval: roundTimeoutInterval,
+		RoundInterval:        roundTimeoutInterval,
 	}
+	p.executor.SetTxPool(txpool)
+	p.logger.Info("Pacemaker initialized", "version", version, "roundTimeoutInterval", p.RoundTimeoutInterval, "roundInterval", p.RoundInterval)
 
 	return p
 }
@@ -129,6 +139,7 @@ func (p *Pacemaker) CreateLeaf(parent *block.DraftBlock, justify *block.DraftQC,
 	if err != nil {
 		return err, nil
 	}
+	p.logger.Info("CreateLeaf PrepareProposal", "res tx count", len(res.Txs))
 
 	var txs types.Transactions
 	for _, txBytes := range res.Txs {
@@ -656,6 +667,7 @@ CleanCMDCh:
 
 func (p *Pacemaker) mainLoop() {
 	interruptCh := make(chan os.Signal, 1)
+	p.mainLoopStarted = true
 	// signal.Notify(interruptCh, syscall.SIGINT, syscall.SIGTERM)
 
 	for {
@@ -715,6 +727,7 @@ func (p *Pacemaker) mainLoop() {
 
 		case <-interruptCh:
 			p.logger.Warn("interrupt by user, exit now")
+			p.mainLoopStarted = false
 			return
 
 		}
@@ -783,7 +796,7 @@ func (p *Pacemaker) resetRoundTimer(round uint32, rtype roundType) time.Duration
 	}
 	// start round timer
 	if p.roundTimer == nil {
-		baseInterval := RoundTimeoutInterval
+		baseInterval := p.RoundTimeoutInterval
 		switch rtype {
 		case RegularRound:
 			p.timeoutCounter = 0
@@ -802,5 +815,6 @@ func (p *Pacemaker) resetRoundTimer(round uint32, rtype roundType) time.Duration
 		})
 		return timeoutInterval
 	}
-	return time.Second
+	// return time.Second
+	return p.RoundInterval
 }

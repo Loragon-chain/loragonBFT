@@ -223,6 +223,8 @@ func loadBestQC(r db.DB) (*block.QuorumCert, error) {
 
 // saveBestQC save the best qc
 func saveValidatorSet(w db.DB, vset *cmttypes.ValidatorSet) error {
+	// fmt.Println("saving validator set", "hash", hex.EncodeToString(vset.Hash()), "data", vset.String())
+
 	batch := w.NewBatch()
 	key := append(validatorPrefix, vset.Hash()...)
 
@@ -243,6 +245,8 @@ func saveValidatorSet(w db.DB, vset *cmttypes.ValidatorSet) error {
 
 // loadBestQC load the best qc
 func loadValidatorSet(r db.DB, vhash []byte) (*cmttypes.ValidatorSet, error) {
+	// fmt.Println("loading validator set", "hash", hex.EncodeToString(vhash))
+
 	vsetProto := new(cmtproto.ValidatorSet)
 	key := append(validatorPrefix, vhash...)
 	vsetBytes, err := r.Get(key)

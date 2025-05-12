@@ -8,6 +8,13 @@ import (
 	"sync"
 	"time"
 
+	"github.com/OffchainLabs/prysm/v6/beacon-chain/cache"
+	"github.com/OffchainLabs/prysm/v6/cmd/beacon-chain/flags"
+	"github.com/OffchainLabs/prysm/v6/config/features"
+	"github.com/OffchainLabs/prysm/v6/config/params"
+	ecdsaprysm "github.com/OffchainLabs/prysm/v6/crypto/ecdsa"
+	"github.com/OffchainLabs/prysm/v6/runtime/version"
+	"github.com/OffchainLabs/prysm/v6/time/slots"
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	"github.com/ethereum/go-ethereum/p2p/enode"
 	"github.com/ethereum/go-ethereum/p2p/enr"
@@ -16,13 +23,6 @@ import (
 	ma "github.com/multiformats/go-multiaddr"
 	"github.com/pkg/errors"
 	"github.com/prysmaticlabs/go-bitfield"
-	"github.com/prysmaticlabs/prysm/v5/beacon-chain/cache"
-	"github.com/prysmaticlabs/prysm/v5/cmd/beacon-chain/flags"
-	"github.com/prysmaticlabs/prysm/v5/config/features"
-	"github.com/prysmaticlabs/prysm/v5/config/params"
-	ecdsaprysm "github.com/prysmaticlabs/prysm/v5/crypto/ecdsa"
-	"github.com/prysmaticlabs/prysm/v5/runtime/version"
-	"github.com/prysmaticlabs/prysm/v5/time/slots"
 	"github.com/sirupsen/logrus"
 )
 
@@ -645,7 +645,13 @@ func PeersFromStringAddrs(addrs []string) ([]ma.Multiaddr, error) {
 }
 
 func ParseBootStrapAddrs(addrs []string) (discv5Nodes []string) {
-	discv5Nodes, _ = parseGenericAddrs(addrs)
+	log.Info("Parsing bootstrap addresses", "addrs", addrs)
+
+	var multiAddrs []string
+	discv5Nodes, multiAddrs = parseGenericAddrs(addrs)
+	log.Info("Discv5 nodes", "nodes", discv5Nodes)
+	log.Info("Multiaddrs", "multiaddrs", multiAddrs)
+
 	if len(discv5Nodes) == 0 {
 		log.Warn("No bootstrap addresses supplied")
 	}
@@ -662,11 +668,15 @@ func parseGenericAddrs(addrs []string) (enodeString, multiAddrString []string) {
 		if err == nil {
 			enodeString = append(enodeString, addr)
 			continue
+		} else {
+			log.WithError(err).Errorf("Invalid enode address of %s provided", addr)
 		}
 		_, err = multiAddrFromString(addr)
 		if err == nil {
 			multiAddrString = append(multiAddrString, addr)
 			continue
+		} else {
+			log.WithError(err).Errorf("Invalid multiaddr address of %s provided", addr)
 		}
 		log.WithError(err).Errorf("Invalid address of %s provided", addr)
 	}

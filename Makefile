@@ -11,7 +11,7 @@ MAJOR = $(shell go version | cut -d' ' -f3 | cut -b 3- | cut -d. -f1)
 MINOR = $(shell go version | cut -d' ' -f3 | cut -b 3- | cut -d. -f2)
 export GO111MODULE=on
 
-.PHONY: loragon all clean test
+.PHONY: loragon disco mdb all clean test
 
 loragon:| go_version_check
 	@echo "building $@..."
@@ -52,3 +52,6 @@ $(CURDIR)/bin/disco
 
 test:| go_version_check
 	@go test -cover $(PACKAGES)
+
+build:
+	go build -o loragon -tags bls12381 main.go sample_app.go 

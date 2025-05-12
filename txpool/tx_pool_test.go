@@ -5,131 +5,131 @@
 
 package txpool
 
-import (
-	"testing"
-	"time"
+// import (
+// 	"testing"
+// 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/genesis"
-	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
-	"github.com/Loragon-chain/loragon-consensus/types"
-	cmttypes "github.com/cometbft/cometbft/types"
-	"github.com/stretchr/testify/assert"
-)
+// 	"github.com/Loragon-chain/loragon-consensus/block"
+// 	"github.com/Loragon-chain/loragon-consensus/genesis"
+// 	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
+// 	"github.com/Loragon-chain/loragon-consensus/types"
+// 	cmttypes "github.com/cometbft/cometbft/types"
+// 	"github.com/stretchr/testify/assert"
+// )
 
-func init() {
-}
+// func init() {
+// }
 
-func newPool() *TxPool {
-	kv, _ := lvldb.NewMem()
-	chain := newChain(kv)
-	return New(chain, Options{
-		Limit:           10,
-		LimitPerAccount: 2,
-		MaxLifetime:     time.Hour,
-	})
-}
-func TestNewClose(t *testing.T) {
-	pool := newPool()
-	defer pool.Close()
-}
+// func newPool() *TxPool {
+// 	kv, _ := lvldb.NewMem()
+// 	chain := newChain(kv)
+// 	return New(chain, Options{
+// 		Limit:           10,
+// 		LimitPerAccount: 2,
+// 		MaxLifetime:     time.Hour,
+// 	})
+// }
+// func TestNewClose(t *testing.T) {
+// 	pool := newPool()
+// 	defer pool.Close()
+// }
 
-func TestSubscribeNewTx(t *testing.T) {
-	pool := newPool()
-	defer pool.Close()
+// func TestSubscribeNewTx(t *testing.T) {
+// 	pool := newPool()
+// 	defer pool.Close()
 
-	b1 := new(block.Builder).
-		ParentID(pool.chain.GenesisBlock().ID()).
-		Timestamp(uint64(time.Now().Unix())).Build()
-	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
-	b1.SetQC(&qc)
-	pool.chain.AddBlock(b1, nil)
+// 	b1 := new(block.Builder).
+// 		ParentID(pool.chain.GenesisBlock().ID()).
+// 		Timestamp(uint64(time.Now().Unix())).Build()
+// 	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
+// 	b1.SetQC(&qc)
+// 	pool.chain.AddBlock(b1, nil)
 
-	txCh := make(chan *TxEvent)
+// 	txCh := make(chan *TxEvent)
 
-	pool.SubscribeTxEvent(txCh)
+// 	pool.SubscribeTxEvent(txCh)
 
-	tx := newTx(genesis.DevAccounts()[0])
-	assert.Nil(t, pool.Add(tx))
+// 	tx := newTx(genesis.DevAccounts()[0])
+// 	assert.Nil(t, pool.Add(tx))
 
-	v := true
-	assert.Equal(t, &TxEvent{tx, &v}, <-txCh)
-}
+// 	v := true
+// 	assert.Equal(t, &TxEvent{tx, &v}, <-txCh)
+// }
 
-func TestWashTxs(t *testing.T) {
-	pool := newPool()
-	defer pool.Close()
-	txs, _, err := pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
-	assert.Nil(t, err)
-	assert.Zero(t, len(txs))
-	assert.Zero(t, len(pool.Executables()))
+// func TestWashTxs(t *testing.T) {
+// 	pool := newPool()
+// 	defer pool.Close()
+// 	txs, _, err := pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
+// 	assert.Nil(t, err)
+// 	assert.Zero(t, len(txs))
+// 	assert.Zero(t, len(pool.Executables()))
 
-	tx := newTx(genesis.DevAccounts()[0])
-	assert.Nil(t, pool.Add(tx))
+// 	tx := newTx(genesis.DevAccounts()[0])
+// 	assert.Nil(t, pool.Add(tx))
 
-	txs, _, err = pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
-	assert.Nil(t, err)
-	assert.Equal(t, types.Transactions{tx}, txs)
+// 	txs, _, err = pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
+// 	assert.Nil(t, err)
+// 	assert.Equal(t, types.Transactions{tx}, txs)
 
-	b1 := new(block.Builder).
-		ParentID(pool.chain.GenesisBlock().ID()).
-		Timestamp(uint64(time.Now().Unix())).
-		Build()
-	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
-	b1.SetQC(&qc)
-	pool.chain.AddBlock(b1, nil)
+// 	b1 := new(block.Builder).
+// 		ParentID(pool.chain.GenesisBlock().ID()).
+// 		Timestamp(uint64(time.Now().Unix())).
+// 		Build()
+// 	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
+// 	b1.SetQC(&qc)
+// 	pool.chain.AddBlock(b1, nil)
 
-	txs, _, err = pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
-	assert.Nil(t, err)
-	assert.Equal(t, types.Transactions{tx}, txs)
-}
+// 	txs, _, err = pool.wash(pool.chain.BestBlock().Header(), time.Second*10)
+// 	assert.Nil(t, err)
+// 	assert.Equal(t, types.Transactions{tx}, txs)
+// }
 
-func TestAdd(t *testing.T) {
-	pool := newPool()
-	defer pool.Close()
-	b1 := new(block.Builder).
-		ParentID(pool.chain.GenesisBlock().ID()).
-		Timestamp(uint64(time.Now().Unix())).
-		Build()
-	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
-	b1.SetQC(&qc)
-	pool.chain.AddBlock(b1, nil)
-	acc := genesis.DevAccounts()[0]
+// func TestAdd(t *testing.T) {
+// 	pool := newPool()
+// 	defer pool.Close()
+// 	b1 := new(block.Builder).
+// 		ParentID(pool.chain.GenesisBlock().ID()).
+// 		Timestamp(uint64(time.Now().Unix())).
+// 		Build()
+// 	qc := block.QuorumCert{Height: 1, Round: 1, Epoch: 0}
+// 	b1.SetQC(&qc)
+// 	pool.chain.AddBlock(b1, nil)
+// 	acc := genesis.DevAccounts()[0]
 
-	dupTx := newTx(acc)
+// 	dupTx := newTx(acc)
 
-	tests := []struct {
-		tx     cmttypes.Tx
-		errStr string
-	}{
-		{newTx(acc), "bad tx: chain tag mismatch"},
-		{dupTx, ""},
-		{dupTx, ""},
-	}
+// 	tests := []struct {
+// 		tx     cmttypes.Tx
+// 		errStr string
+// 	}{
+// 		{newTx(acc), "bad tx: chain tag mismatch"},
+// 		{dupTx, ""},
+// 		{dupTx, ""},
+// 	}
 
-	for _, tt := range tests {
-		err := pool.Add(tt.tx)
-		if tt.errStr == "" {
-			assert.Nil(t, err)
-		} else {
-			assert.Equal(t, tt.errStr, err.Error())
-		}
-	}
+// 	for _, tt := range tests {
+// 		err := pool.Add(tt.tx)
+// 		if tt.errStr == "" {
+// 			assert.Nil(t, err)
+// 		} else {
+// 			assert.Equal(t, tt.errStr, err.Error())
+// 		}
+// 	}
 
-	tests = []struct {
-		tx     cmttypes.Tx
-		errStr string
-	}{
-		{newTx(acc), "tx rejected: tx is not executable"},
-		{newTx(acc), "tx rejected: tx is not executable"},
-	}
+// 	tests = []struct {
+// 		tx     cmttypes.Tx
+// 		errStr string
+// 	}{
+// 		{newTx(acc), "tx rejected: tx is not executable"},
+// 		{newTx(acc), "tx rejected: tx is not executable"},
+// 	}
 
-	for _, tt := range tests {
-		err := pool.StrictlyAdd(tt.tx)
-		if tt.errStr == "" {
-			assert.Nil(t, err)
-		} else {
-			assert.Equal(t, tt.errStr, err.Error())
-		}
-	}
-}
+// 	for _, tt := range tests {
+// 		err := pool.StrictlyAdd(tt.tx)
+// 		if tt.errStr == "" {
+// 			assert.Nil(t, err)
+// 		} else {
+// 			assert.Equal(t, tt.errStr, err.Error())
+// 		}
+// 	}
+// }

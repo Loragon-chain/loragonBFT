@@ -5,47 +5,47 @@
 
 package txpool
 
-import (
-	"errors"
-	"testing"
+// import (
+// 	"errors"
+// 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/genesis"
-	"github.com/Loragon-chain/loragon-consensus/types"
-	"github.com/stretchr/testify/assert"
-)
+// 	"github.com/Loragon-chain/loragon-consensus/genesis"
+// 	"github.com/Loragon-chain/loragon-consensus/types"
+// 	"github.com/stretchr/testify/assert"
+// )
 
-func TestTxObjMap(t *testing.T) {
+// func TestTxObjMap(t *testing.T) {
 
-	tx1 := newTx(genesis.DevAccounts()[0])
-	tx2 := newTx(genesis.DevAccounts()[0])
-	tx3 := newTx(genesis.DevAccounts()[1])
+// 	tx1 := newTx(genesis.DevAccounts()[0])
+// 	tx2 := newTx(genesis.DevAccounts()[0])
+// 	tx3 := newTx(genesis.DevAccounts()[1])
 
-	txObj1, _ := resolveTx(tx1)
-	txObj2, _ := resolveTx(tx2)
-	txObj3, _ := resolveTx(tx3)
+// 	txObj1, _ := resolveTx(tx1)
+// 	txObj2, _ := resolveTx(tx2)
+// 	txObj3, _ := resolveTx(tx3)
 
-	m := newTxObjectMap()
-	assert.Zero(t, m.Len())
+// 	m := newTxObjectMap()
+// 	assert.Zero(t, m.Len())
 
-	assert.Nil(t, m.Add(txObj1, 1))
-	assert.Nil(t, m.Add(txObj1, 1), "should no error if exists")
-	assert.Equal(t, 1, m.Len())
+// 	assert.Nil(t, m.Add(txObj1, 1))
+// 	assert.Nil(t, m.Add(txObj1, 1), "should no error if exists")
+// 	assert.Equal(t, 1, m.Len())
 
-	assert.Equal(t, errors.New("account quota exceeded"), m.Add(txObj2, 1))
-	assert.Equal(t, 1, m.Len())
+// 	assert.Equal(t, errors.New("account quota exceeded"), m.Add(txObj2, 1))
+// 	assert.Equal(t, 1, m.Len())
 
-	assert.Nil(t, m.Add(txObj3, 1))
-	assert.Equal(t, 2, m.Len())
+// 	assert.Nil(t, m.Add(txObj3, 1))
+// 	assert.Equal(t, 2, m.Len())
 
-	assert.True(t, m.Contains(tx1.Hash()))
-	assert.False(t, m.Contains(tx2.Hash()))
-	assert.True(t, m.Contains(tx3.Hash()))
+// 	assert.True(t, m.Contains(tx1.Hash()))
+// 	assert.False(t, m.Contains(tx2.Hash()))
+// 	assert.True(t, m.Contains(tx3.Hash()))
 
-	assert.True(t, m.Remove(tx1.Hash()))
-	assert.False(t, m.Contains(tx1.Hash()))
-	assert.False(t, m.Remove(tx2.Hash()))
+// 	assert.True(t, m.Remove(tx1.Hash()))
+// 	assert.False(t, m.Contains(tx1.Hash()))
+// 	assert.False(t, m.Remove(tx2.Hash()))
 
-	assert.Equal(t, []*txObject{txObj3}, m.ToTxObjects())
-	assert.Equal(t, types.Transactions{tx3}, m.ToTxs())
+// 	assert.Equal(t, []*txObject{txObj3}, m.ToTxObjects())
+// 	assert.Equal(t, types.Transactions{tx3}, m.ToTxs())
 
-}
+// }

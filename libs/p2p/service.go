@@ -6,6 +6,7 @@ package p2p
 import (
 	"context"
 	"crypto/ecdsa"
+	"encoding/base64"
 	"log/slog"
 	"net"
 	"sync"
@@ -15,8 +16,18 @@ import (
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/types"
+	"github.com/OffchainLabs/prysm/v6/async"
+	"github.com/OffchainLabs/prysm/v6/config/features"
+	"github.com/OffchainLabs/prysm/v6/config/params"
+	leakybucket "github.com/OffchainLabs/prysm/v6/container/leaky-bucket"
+	"github.com/OffchainLabs/prysm/v6/monitoring/tracing/trace"
+	prysmnetwork "github.com/OffchainLabs/prysm/v6/network"
+	"github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1/metadata"
+	"github.com/OffchainLabs/prysm/v6/runtime"
+	"github.com/OffchainLabs/prysm/v6/time/slots"
 	"github.com/ethereum/go-ethereum/p2p/enode"
 	"github.com/ethereum/go-ethereum/p2p/enr"
+	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/libp2p/go-libp2p"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/libp2p/go-libp2p/core/host"
@@ -25,15 +36,6 @@ import (
 	"github.com/libp2p/go-libp2p/core/protocol"
 	"github.com/multiformats/go-multiaddr"
 	"github.com/pkg/errors"
-	"github.com/prysmaticlabs/prysm/v5/async"
-	"github.com/prysmaticlabs/prysm/v5/config/features"
-	"github.com/prysmaticlabs/prysm/v5/config/params"
-	leakybucket "github.com/prysmaticlabs/prysm/v5/container/leaky-bucket"
-	"github.com/prysmaticlabs/prysm/v5/monitoring/tracing/trace"
-	prysmnetwork "github.com/prysmaticlabs/prysm/v5/network"
-	"github.com/prysmaticlabs/prysm/v5/proto/prysm/v1alpha1/metadata"
-	"github.com/prysmaticlabs/prysm/v5/runtime"
-	"github.com/prysmaticlabs/prysm/v5/time/slots"
 	"github.com/sirupsen/logrus"
 )
 
@@ -223,6 +225,17 @@ func (s *Service) Start() {
 		}
 
 		s.dv5Listener = listener
+
+		enc, err := rlp.EncodeToBytes(s.ENR())
+		if err != nil {
+			slog.Error("error encoding ENR", "err", err)
+			return
+		}
+
+		b64 := base64.RawURLEncoding.EncodeToString(enc)
+		enrString := "enr:" + b64
+		slog.Info("p2p node ENR:", "enr", enrString)
+
 		go s.listenForNewNodes()
 	}
 

@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/OffchainLabs/prysm/v6/config/features"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/pkg/errors"
-	"github.com/prysmaticlabs/prysm/v5/config/features"
 )
 
 var _ Scorer = (*Service)(nil)

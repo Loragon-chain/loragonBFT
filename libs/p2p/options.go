@@ -6,19 +6,19 @@ import (
 	"net"
 	"time"
 
+	"github.com/OffchainLabs/prysm/v6/config/features"
+	ecdsaprysm "github.com/OffchainLabs/prysm/v6/crypto/ecdsa"
+	"github.com/OffchainLabs/prysm/v6/runtime/version"
 	"github.com/libp2p/go-libp2p"
-	mplex "github.com/libp2p/go-libp2p-mplex"
-	"github.com/libp2p/go-libp2p/core/network"
 	"github.com/libp2p/go-libp2p/core/peer"
+	rcmgr "github.com/libp2p/go-libp2p/p2p/host/resource-manager"
+	"github.com/libp2p/go-libp2p/p2p/muxer/yamux"
 	"github.com/libp2p/go-libp2p/p2p/security/noise"
 	libp2pquic "github.com/libp2p/go-libp2p/p2p/transport/quic"
 	libp2ptcp "github.com/libp2p/go-libp2p/p2p/transport/tcp"
 	gomplex "github.com/libp2p/go-mplex"
 	ma "github.com/multiformats/go-multiaddr"
 	"github.com/pkg/errors"
-	"github.com/prysmaticlabs/prysm/v5/config/features"
-	ecdsaprysm "github.com/prysmaticlabs/prysm/v5/crypto/ecdsa"
-	"github.com/prysmaticlabs/prysm/v5/runtime/version"
 )
 
 type internetProtocol string
@@ -94,7 +94,8 @@ func (s *Service) buildOptions(ip net.IP, priKey *ecdsa.PrivateKey) ([]libp2p.Op
 		// libp2p.ConnectionGater(s),
 		libp2p.Transport(libp2ptcp.NewTCPTransport),
 		libp2p.DefaultMuxers,
-		libp2p.Muxer("/mplex/6.7.0", mplex.DefaultTransport),
+		// libp2p.Muxer("/mplex/6.7.0", mplex.DefaultTransport),
+		libp2p.Muxer(yamux.ID, yamux.DefaultTransport),
 		libp2p.Security(noise.ID, noise.New),
 		libp2p.Ping(false), // Disable Ping Service.
 	}
@@ -138,9 +139,23 @@ func (s *Service) buildOptions(ip net.IP, priKey *ecdsa.PrivateKey) ([]libp2p.Op
 		}))
 	}
 
-	if features.Get().DisableResourceManager {
-		options = append(options, libp2p.ResourceManager(&network.NullResourceManager{}))
+	// Create resource manager with increased limits
+	// Create custom config based on default limits
+	limitsConfig := rcmgr.DefaultLimits
+
+	// Increase system-level stream limits
+	limitsConfig.SystemBaseLimit.Streams = 2000
+	limitsConfig.SystemBaseLimit.StreamsOutbound = 1000
+	limitsConfig.SystemBaseLimit.ConnsOutbound = 500
+
+	// Create fixed limiter
+	limiter := rcmgr.NewFixedLimiter(limitsConfig.AutoScale())
+
+	rm, err := rcmgr.NewResourceManager(limiter)
+	if err != nil {
+		return nil, err
 	}
+	options = append(options, libp2p.ResourceManager(rm))
 
 	return options, nil
 }

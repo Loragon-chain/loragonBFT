@@ -62,7 +62,7 @@ func NewConsensusReactor(ctx context.Context, config *cmtcfg.Config, chain *chai
 	prometheus.Register(pmRoleGauge)
 
 	r := &Reactor{
-		Pacemaker: *NewPacemaker(ctx, config.Version, chain, txpool, p2pSrv, blsMaster, proxyApp),
+		Pacemaker: *NewPacemaker(ctx, config.Version, chain, txpool, p2pSrv, blsMaster, proxyApp, config.Consensus.TimeoutPropose),
 		chain:     chain,
 		logger:    slog.With("pkg", "r"),
 		SyncDone:  false,
