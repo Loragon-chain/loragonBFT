@@ -54,4 +54,4 @@ test:| go_version_check
 	@go test -cover $(PACKAGES)
 
 build:
-	go build -o loragon -tags bls12381 main.go sample_app.go 
+	go build -o loragon -tags bls12381 main.go sample_app.go code.go

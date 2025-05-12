@@ -3,23 +3,80 @@ package main
 import (
 	"bytes"
 	"context"
-	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 
 	"github.com/cockroachdb/pebble"
+	"github.com/cometbft/cometbft/abci/types"
 	abcitypes "github.com/cometbft/cometbft/abci/types"
 )
 
+var (
+	stateKey        = []byte("stateKey")
+	kvPairPrefixKey = []byte("kvPairKey:")
+)
+
+const (
+	ValidatorPrefix        = "val="
+	AppVersion      uint64 = 1
+	defaultLane     string = "default"
+)
+
+type State struct {
+	db *pebble.DB
+	// Size is essentially the amount of transactions that have been processes.
+	// This is used for the appHash
+	Size   int64 `json:"size"`
+	Height int64 `json:"height"`
+}
+
+// Application is the kvstore state machine. It complies with the abci.Application interface.
+// It takes transactions in the form of key=value and saves them in a database. This is
+// a somewhat trivial example as there is no real state execution.
 type KVStoreApplication struct {
 	db           *pebble.DB
 	onGoingBatch *pebble.Batch
+	logger       log.Logger
 }
 
 var _ abcitypes.Application = (*KVStoreApplication)(nil)
 
-func NewKVStoreApplication(db *pebble.DB) *KVStoreApplication {
-	return &KVStoreApplication{db: db}
+func newDB(dbDir string) *pebble.DB {
+	db, err := pebble.Open(dbDir, nil)
+	if err != nil {
+		panic(fmt.Errorf("failed to create persistent app at %s: %w", dbDir, err))
+	}
+	return db
+}
+
+func NewKVStoreApplication(dbDir string) *KVStoreApplication {
+	return NewApplication(newDB(dbDir))
+}
+
+func NewApplication(db *pebble.DB) *KVStoreApplication {
+	return &KVStoreApplication{
+		db: db,
+	}
+}
+
+func loadState(db *pebble.DB) State {
+	var state State
+	state.db = db
+	stateBytes, _, err := db.Get(stateKey)
+	if err != nil && err != pebble.ErrNotFound {
+		panic(err)
+	}
+
+	if len(stateBytes) == 0 {
+		return state
+	}
+	err = json.Unmarshal(stateBytes, &state)
+	if err != nil {
+		panic(err)
+	}
+	return state
 }
 
 func (app *KVStoreApplication) isValid(tx []byte) uint32 {
@@ -33,7 +90,29 @@ func (app *KVStoreApplication) isValid(tx []byte) uint32 {
 
 func (app *KVStoreApplication) Info(_ context.Context, info *abcitypes.InfoRequest) (*abcitypes.InfoResponse, error) {
 	return &abcitypes.InfoResponse{}, nil
+
 }
+
+// func (app *KVStoreApplication) getValidators() (validators []abcitypes.ValidatorUpdate) {
+// 	itr, err := app.state.db.NewIter(nil)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	for ; itr.Valid(); itr.Next() {
+// 		if isValidatorTx(itr.Key()) {
+// 			validator := new(types.ValidatorUpdate)
+// 			err := types.ReadMessage(bytes.NewBuffer(itr.Value()), validator)
+// 			if err != nil {
+// 				panic(err)
+// 			}
+// 			validators = append(validators, *validator)
+// 		}
+// 	}
+// 	if err = itr.Error(); err != nil {
+// 		panic(err)
+// 	}
+// 	return validators
+// }
 
 func (app *KVStoreApplication) Query(_ context.Context, req *abcitypes.QueryRequest) (*abcitypes.QueryResponse, error) {
 	resp := abcitypes.QueryResponse{Key: req.Data}
@@ -59,15 +138,20 @@ func (app *KVStoreApplication) CheckTx(_ context.Context, check *abcitypes.Check
 	return &abcitypes.CheckTxResponse{Code: code}, nil
 }
 
-func (app *KVStoreApplication) InitChain(_ context.Context, chain *abcitypes.InitChainRequest) (*abcitypes.InitChainResponse, error) {
-	return &abcitypes.InitChainResponse{}, nil
+func (app *KVStoreApplication) InitChain(_ context.Context, req *abcitypes.InitChainRequest) (*abcitypes.InitChainResponse, error) {
+
+	appHash := make([]byte, 8)
+	return &types.InitChainResponse{
+		AppHash:    appHash,
+		Validators: req.Validators,
+	}, nil
 }
 
-func (app *KVStoreApplication) PrepareProposal(_ context.Context, proposal *abcitypes.PrepareProposalRequest) (*abcitypes.PrepareProposalResponse, error) {
+func (app *KVStoreApplication) PrepareProposal(ctx context.Context, proposal *abcitypes.PrepareProposalRequest) (*abcitypes.PrepareProposalResponse, error) {
 	return &abcitypes.PrepareProposalResponse{Txs: proposal.Txs}, nil
 }
 
-func (app *KVStoreApplication) ProcessProposal(_ context.Context, proposal *abcitypes.ProcessProposalRequest) (*abcitypes.ProcessProposalResponse, error) {
+func (app *KVStoreApplication) ProcessProposal(ctx context.Context, proposal *abcitypes.ProcessProposalRequest) (*abcitypes.ProcessProposalResponse, error) {
 	return &abcitypes.ProcessProposalResponse{Status: abcitypes.PROCESS_PROPOSAL_STATUS_ACCEPT}, nil
 }
 
@@ -109,33 +193,34 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
 		}
 	}
 
-	nova2PubkeyHex := "9016f8eba9f86d6a9bd880b50925b28d5dea35e9fa6de82da4a8f355ccfc68bbbe1f9374b97f67ce3e3c0689c9fa075c"
-	if req.Height == 6 {
-		pubkey, _ := hex.DecodeString(nova2PubkeyHex)
-		updates = append(updates, abcitypes.ValidatorUpdate{
-			Power:       10,
-			PubKeyBytes: pubkey,
-			PubKeyType:  "bls12-381.pubkey",
-		})
-		events = append(events, abcitypes.Event{
-			Type: "ValidatorExtra",
-			Attributes: []abcitypes.EventAttribute{
-				{Key: "pubkey", Value: nova2PubkeyHex},
-				{Key: "name", Value: "nova-2"},
-				{Key: "ip", Value: "52.22.222.17"},
-				{Key: "port", Value: "8670"},
-			},
-		})
-	}
+	// loragonPubkeyHex := "b8cff948c0d4022781418e9242b37da09937d901f0af436756b4228099d1ad5772223106282533bb6105723a0bc90b2e"
+	// if req.Height == 6 {
+	// 	pubkey, _ := hex.DecodeString(loragonPubkeyHex)
+	// 	fmt.Println("loragonPubkeyHex", pubkey)
+	// 	updates = append(updates, abcitypes.ValidatorUpdate{
+	// 		Power:       10,
+	// 		PubKeyBytes: pubkey,
+	// 		PubKeyType:  "bls12-381.pubkey",
+	// 	})
+	// 	events = append(events, abcitypes.Event{
+	// 		Type: "ValidatorExtra",
+	// 		Attributes: []abcitypes.EventAttribute{
+	// 			{Key: "pubkey", Value: loragonPubkeyHex},
+	// 			{Key: "name", Value: "loragon"},
+	// 			{Key: "ip", Value: "42.113.171.94"}, // TODO: change to the actual IP address
+	// 			{Key: "port", Value: "8670"},
+	// 		},
+	// 	})
+	// }
 
-	if req.Height == 20 {
-		pubkey, _ := hex.DecodeString(nova2PubkeyHex)
-		updates = append(updates, abcitypes.ValidatorUpdate{
-			Power:       0,
-			PubKeyBytes: pubkey,
-			PubKeyType:  "bls12-381.pubkey",
-		})
-	}
+	// if req.Height == 20 {
+	// 	pubkey, _ := hex.DecodeString(loragonPubkeyHex)
+	// 	updates = append(updates, abcitypes.ValidatorUpdate{
+	// 		Power:       0,
+	// 		PubKeyBytes: pubkey,
+	// 		PubKeyType:  "bls12-381.pubkey",
+	// 	})
+	// }
 
 	if err := app.onGoingBatch.Commit(pebble.Sync); err != nil {
 		log.Panicf("Failed to commit batch: %v", err)
@@ -149,7 +234,6 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
 }
 
 func (app *KVStoreApplication) Commit(_ context.Context, commit *abcitypes.CommitRequest) (*abcitypes.CommitResponse, error) {
-	// PebbleDB batches are committed in FinalizeBlock, so nothing to do here
 	return &abcitypes.CommitResponse{}, nil
 }
 

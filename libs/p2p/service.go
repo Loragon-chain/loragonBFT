@@ -7,6 +7,7 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"encoding/base64"
+	"fmt"
 	"log/slog"
 	"net"
 	"sync"
@@ -143,6 +144,7 @@ func NewService(ctx context.Context, genesisTimestamp int64, genesisValidatorsRo
 
 	// Sets mplex timeouts
 	configureMplex()
+	fmt.Println("opts", opts)
 	h, err := libp2p.New(opts...) // libp2p.ListenAddrStrings("/ip4/0.0.0.0/tcp/13000"))
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to create p2p host")

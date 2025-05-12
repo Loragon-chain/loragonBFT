@@ -103,6 +103,7 @@ func privKey(cfg *Config) (*ecdsa.PrivateKey, error) {
 
 // Retrieves a p2p networking private key from a file path.
 func privKeyFromFile(path string) (*ecdsa.PrivateKey, error) {
+	fmt.Println("Reading private key from file", path)
 	src, err := os.ReadFile(path) // #nosec G304
 	if err != nil {
 		log.WithError(err).Error("Error reading private key from file")

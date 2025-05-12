@@ -80,23 +80,15 @@ func (h *Handshaker) Handshake(ctx context.Context, proxyApp proxy.AppConns) err
 		"protocol-version", res.AppVersion,
 	)
 
-	// best := h.chain.BestBlock()
-
-	// // Only set the version if there is no existing state.
-	// if best.Number() == 0 {
-	// 	// h. = res.AppVersion
-	// }
-
-	// Replay blocks up to the latest in the blockstore.
 	appHash, err = h.ReplayBlocks(ctx, appHash, blockHeight, proxyApp)
 	if err != nil {
 		h.logger.Error("error on replay", "err", err)
 		return fmt.Errorf("error on replay: %v", err)
 	}
 
-	h.logger.Info("Completed ABCI Handshake - CometBFT and App are synced",
+	h.logger.Info("Completed ABCI Handshake - LoragonBFT and App are synced",
 		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash))
-	fmt.Println("Completed ABCI Handshake - CometBFT and App are synced",
+	fmt.Println("Completed ABCI Handshake - LoragonBFT and App are synced",
 		"appHeight", blockHeight, "appHash", log.NewLazySprintf("%X", appHash))
 
 	// TODO: (on restart) replay mempool
@@ -162,23 +154,17 @@ func (h *Handshaker) ReplayBlocks(
 			AppStateBytes:   h.genDoc.AppState,
 		}
 
-		h.logger.Info("InitChain request:", req)
-
 		res, err := proxyApp.Consensus().InitChain(context.TODO(), req)
 		if err != nil {
 			h.logger.Error("InitChain failed: ", "err", err)
 			fmt.Println("InitChain failed: ", err)
 			return nil, err
 		}
-		h.logger.Info("InitChain Response Validators: ", res)
 		appHash = res.AppHash
-		// fmt.Println("InitChain Response Validators: ", len(res.Validators))
-		h.logger.Info("InitChain Response Validators: ", len(res.Validators))
-
-		// h.logger.Info("InitChain genesis validator", h.genDoc.Validators,
-		// 	"initChain response validators", res.Validators)
 
 		gene := genesis.NewGenesis(h.genDoc, res.Validators)
+
+		h.logger.Info("Initializing chain", "gene", gene)
 
 		err = h.chain.Initialize(gene)
 		if err != nil {

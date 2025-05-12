@@ -37,7 +37,6 @@ func NewGenesis(gdoc *cmttypes.GenesisDoc, validatorUpdate []v1.ValidatorUpdate)
 		panic(err)
 	}
 	chainId, err := strconv.ParseUint(gdoc.ChainID, 10, 64)
-
 	return &Genesis{builder, id, chainId, "Loragon"}
 }
 

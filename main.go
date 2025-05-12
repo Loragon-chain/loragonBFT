@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/cockroachdb/pebble"
 	"github.com/cometbft/cometbft/privval"
 	"github.com/cometbft/cometbft/proxy"
 	"golang.org/x/sync/errgroup"
@@ -28,7 +27,7 @@ import (
 var homeDir string
 
 func init() {
-	flag.StringVar(&homeDir, "cmt-home", "", "Path to the CometBFT config directory (if empty, uses $HOME/.loragon)")
+	flag.StringVar(&homeDir, "cmt-home", "", "Path to the LoragonBFT config directory (if empty, uses $HOME/.loragon)")
 }
 
 var (
@@ -58,18 +57,8 @@ func main() {
 		slog.Error("Invalid configuration data: %v", err)
 	}
 	dbPath := filepath.Join(homeDir, "badger")
-	db, err := pebble.Open(dbPath, &pebble.Options{})
 
-	if err != nil {
-		slog.Error("Opening database: %v", err)
-	}
-	defer func() {
-		if err := db.Close(); err != nil {
-			slog.Error("Closing database: %v", err)
-		}
-	}()
-
-	app := NewKVStoreApplication(db)
+	app := NewKVStoreApplication(dbPath)
 
 	pv := privval.LoadFilePV(
 		config.PrivValidatorKeyFile(),
