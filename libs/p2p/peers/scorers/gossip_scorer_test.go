@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/scorers"
 	pbrpc "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
 	"github.com/OffchainLabs/prysm/v6/testing/assert"
 )

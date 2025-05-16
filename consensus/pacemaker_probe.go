@@ -4,8 +4,8 @@ package consensus
 // 1. provide probe for debug
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/ethereum/go-ethereum/rlp"
 )
 

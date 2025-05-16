@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragonBFT/libs/co"
 )
 
 func TestParallel(t *testing.T) {

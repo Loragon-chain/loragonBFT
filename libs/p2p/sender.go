@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	snmsg "github.com/Loragon-chain/loragon-consensus/libs/message"
+	snmsg "github.com/Loragon-chain/loragonBFT/libs/message"
 	"github.com/OffchainLabs/prysm/v6/monitoring/tracing"
 	"github.com/OffchainLabs/prysm/v6/monitoring/tracing/trace"
 	"github.com/kr/pretty"

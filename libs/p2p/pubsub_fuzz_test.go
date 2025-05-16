@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/encoder"
 )
 
 func FuzzMsgID(f *testing.F) {

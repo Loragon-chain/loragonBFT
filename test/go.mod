@@ -1,4 +1,4 @@
-module github.com/Loragon-chain/loragon-consensus/test
+module github.com/Loragon-chain/loragonBFT/test
 
 go 1.24.2
 

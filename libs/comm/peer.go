@@ -13,8 +13,8 @@ import (
 	"math/rand"
 	"sync"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/comm/rpc"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/libs/comm/rpc"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/p2p/enode"

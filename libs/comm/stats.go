@@ -5,7 +5,7 @@
 
 package comm
 
-import "github.com/Loragon-chain/loragon-consensus/types"
+import "github.com/Loragon-chain/loragonBFT/types"
 
 // type Traffic struct {
 // 	Bytes    uint64

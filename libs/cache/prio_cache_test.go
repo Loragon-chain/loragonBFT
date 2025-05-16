@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/cache"
+	"github.com/Loragon-chain/loragonBFT/libs/cache"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -5,8 +5,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
-	p2ptypes "github.com/Loragon-chain/loragon-consensus/libs/p2p/types"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/peerdata"
+	p2ptypes "github.com/Loragon-chain/loragonBFT/libs/p2p/types"
 	"github.com/OffchainLabs/prysm/v6/consensus-types/primitives"
 	pb "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
 	"github.com/libp2p/go-libp2p/core/peer"

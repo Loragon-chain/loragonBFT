@@ -10,8 +10,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/libs/lvldb"
+	"github.com/Loragon-chain/loragonBFT/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/stretchr/testify/assert"
 )

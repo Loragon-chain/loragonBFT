@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/encoder"
 	"github.com/OffchainLabs/prysm/v6/config/params"
 	"github.com/OffchainLabs/prysm/v6/network/forks"
 	"github.com/OffchainLabs/prysm/v6/testing/assert"

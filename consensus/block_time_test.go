@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/genesis"
-	"github.com/Loragon-chain/loragon-consensus/libs/kv"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/genesis"
+	"github.com/Loragon-chain/loragonBFT/libs/kv"
 	"github.com/ethereum/go-ethereum/common"
 )
 

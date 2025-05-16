@@ -14,7 +14,7 @@ import (
 	// "io"
 	"sync/atomic"
 
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/types"
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	"github.com/ethereum/go-ethereum/crypto/blake2b"
 	"github.com/ethereum/go-ethereum/rlp"

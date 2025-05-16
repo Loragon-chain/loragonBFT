@@ -11,7 +11,7 @@ import (
 	"log/slog"
 	"sync"
 
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/ethereum/go-ethereum/common"
 )
 

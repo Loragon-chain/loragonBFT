@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/peerdata"
 	"github.com/OffchainLabs/prysm/v6/cmd/beacon-chain/flags"
 	"github.com/OffchainLabs/prysm/v6/config/features"
 	"github.com/OffchainLabs/prysm/v6/crypto/rand"

@@ -6,7 +6,7 @@
 package node
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 type blockStats struct {

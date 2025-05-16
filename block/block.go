@@ -16,8 +16,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 	cmtbytes "github.com/cometbft/cometbft/libs/bytes"
 	cmttypes "github.com/cometbft/cometbft/types"

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/types"
 )
 
 func (p *Pacemaker) scheduleBroadcast(proposalMsg *block.PMProposalMessage, d time.Duration) {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/libs/co"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/libs/co"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/pkg/errors"
 )

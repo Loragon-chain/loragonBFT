@@ -11,8 +11,8 @@ package p2p
 // 	"github.com/OffchainLabs/prysm/v6/beacon-chain/startup"
 // 	"github.com/OffchainLabs/prysm/v6/testing/assert"
 // 	"github.com/OffchainLabs/prysm/v6/testing/require"
-// 	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
-// 	testp2p "github.com/Loragon-chain/loragon-consensus/libs/p2p/testing"
+// 	"github.com/Loragon-chain/loragonBFT/libs/p2p/encoder"
+// 	testp2p "github.com/Loragon-chain/loragonBFT/libs/p2p/testing"
 // 	"github.com/pkg/errors"
 // )
 

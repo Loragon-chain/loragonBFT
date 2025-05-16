@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/peerdata"
 	"github.com/OffchainLabs/prysm/v6/testing/assert"
 	"github.com/OffchainLabs/prysm/v6/testing/require"
 	"github.com/libp2p/go-libp2p/core/peer"

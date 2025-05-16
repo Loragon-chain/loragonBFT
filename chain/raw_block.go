@@ -8,7 +8,7 @@ package chain
 import (
 	"sync/atomic"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 type rawBlock struct {

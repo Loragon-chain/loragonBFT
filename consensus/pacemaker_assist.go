@@ -12,10 +12,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 	cmttypes "github.com/cometbft/cometbft/types"
 )

@@ -8,7 +8,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/encoder"
 	"github.com/OffchainLabs/prysm/v6/config/params"
 	ethpb "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
 	"github.com/OffchainLabs/prysm/v6/testing/assert"

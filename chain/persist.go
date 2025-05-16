@@ -9,8 +9,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/types"
 	db "github.com/cometbft/cometbft-db"
 	v1 "github.com/cometbft/cometbft/api/cometbft/abci/v1"
 	cmtproto "github.com/cometbft/cometbft/api/cometbft/types/v1"

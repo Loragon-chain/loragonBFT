@@ -13,12 +13,12 @@ package node_test
 // 	"testing"
 // 	"time"
 
-// 	"github.com/Loragon-chain/loragon-consensus/api/node"
-// 	"github.com/Loragon-chain/loragon-consensus/chain"
-// 	"github.com/Loragon-chain/loragon-consensus/genesis"
-// 	"github.com/Loragon-chain/loragon-consensus/libs/comm"
-// 	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
-// 	"github.com/Loragon-chain/loragon-consensus/txpool"
+// 	"github.com/Loragon-chain/loragonBFT/api/node"
+// 	"github.com/Loragon-chain/loragonBFT/chain"
+// 	"github.com/Loragon-chain/loragonBFT/genesis"
+// 	"github.com/Loragon-chain/loragonBFT/libs/comm"
+// 	"github.com/Loragon-chain/loragonBFT/libs/lvldb"
+// 	"github.com/Loragon-chain/loragonBFT/txpool"
 // 	"github.com/gorilla/mux"
 // 	"github.com/stretchr/testify/assert"
 // )

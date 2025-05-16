@@ -1,4 +1,4 @@
-PACKAGE = github.com/Loragon-chain/loragon-consensus
+PACKAGE = github.com/Loragon-chain/loragonBFT
 
 GIT_COMMIT = $(shell git --no-pager log --pretty="%h" -n 1)
 GIT_TAG = $(shell git tag -l --points-at HEAD)

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
 	"github.com/ethereum/go-ethereum/crypto/blake2b"
 	"github.com/ethereum/go-ethereum/rlp"
 )

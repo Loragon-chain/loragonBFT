@@ -11,8 +11,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/chain"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/chain"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/pkg/errors"
 )

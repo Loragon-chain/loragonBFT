@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	"github.com/Loragon-chain/loragonBFT/libs/lvldb"
 	db "github.com/cometbft/cometbft-db"
 	cmtcfg "github.com/cometbft/cometbft/config"
 	"github.com/ethereum/go-ethereum/common/fdlimit"

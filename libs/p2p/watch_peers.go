@@ -3,7 +3,7 @@ package p2p
 import (
 	"context"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"
 	ma "github.com/multiformats/go-multiaddr"

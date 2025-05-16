@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/libp2p/go-libp2p/core/peer"
 )
 

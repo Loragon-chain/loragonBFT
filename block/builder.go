@@ -6,7 +6,7 @@
 package block
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 )
 

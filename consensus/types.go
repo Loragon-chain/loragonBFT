@@ -6,7 +6,7 @@
 package consensus
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 type EpochEndInfo struct {

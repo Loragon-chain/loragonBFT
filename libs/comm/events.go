@@ -8,7 +8,7 @@ package comm
 import (
 	"context"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 // NewBlockEvent event emitted when received block announcement.

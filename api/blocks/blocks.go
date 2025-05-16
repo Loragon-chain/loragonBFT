@@ -11,10 +11,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Loragon-chain/loragon-consensus/api/utils"
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/api/utils"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )

@@ -8,8 +8,8 @@ package comm
 import (
 	"fmt"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/comm/proto"
-	"github.com/Loragon-chain/loragon-consensus/txpool"
+	"github.com/Loragon-chain/loragonBFT/libs/comm/proto"
+	"github.com/Loragon-chain/loragonBFT/txpool"
 )
 
 func (c *Communicator) txsLoop() {

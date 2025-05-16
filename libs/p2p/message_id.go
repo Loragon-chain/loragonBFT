@@ -1,7 +1,7 @@
 package p2p
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/encoder"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/encoder"
 	"github.com/OffchainLabs/prysm/v6/config/params"
 	"github.com/OffchainLabs/prysm/v6/consensus-types/primitives"
 	"github.com/OffchainLabs/prysm/v6/crypto/hash"

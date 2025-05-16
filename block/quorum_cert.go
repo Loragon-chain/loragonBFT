@@ -11,8 +11,8 @@ import (
 	"io"
 	"log/slog"
 
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/ethereum/go-ethereum/rlp"
 )
 

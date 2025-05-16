@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	"github.com/Loragon-chain/loragon-consensus/libs/message"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
-	"github.com/Loragon-chain/loragon-consensus/libs/rpc"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	"github.com/Loragon-chain/loragonBFT/libs/message"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p"
+	"github.com/Loragon-chain/loragonBFT/libs/rpc"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/ethereum/go-ethereum/rlp"
 )
 

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
 	"github.com/cometbft/cometbft/crypto"
 	"github.com/cometbft/cometbft/crypto/ed25519"
 	cmtjson "github.com/cometbft/cometbft/libs/json"

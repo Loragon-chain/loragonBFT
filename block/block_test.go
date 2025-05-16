@@ -11,13 +11,13 @@ package block_test
 
 // 	"github.com/stretchr/testify/assert"
 
-// 	. "github.com/Loragon-chain/loragon-consensus/block"
+// 	. "github.com/Loragon-chain/loragonBFT/block"
 // 	"github.com/ethereum/go-ethereum/rlp"
 
 // 	// "crypto/rand"
-// 	// cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
+// 	// cmn "github.com/Loragon-chain/loragonBFT/libs/common"
 
-// 	"github.com/Loragon-chain/loragon-consensus/types"
+// 	"github.com/Loragon-chain/loragonBFT/types"
 // )
 
 // func TestSerialize(t *testing.T) {

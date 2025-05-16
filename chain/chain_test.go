@@ -8,11 +8,11 @@ package chain_test
 // import (
 // 	"testing"
 
-// 	"github.com/Loragon-chain/loragon-consensus/block"
-// 	"github.com/Loragon-chain/loragon-consensus/chain"
-// 	"github.com/Loragon-chain/loragon-consensus/genesis"
-// 	"github.com/Loragon-chain/loragon-consensus/libs/lvldb"
-// 	"github.com/Loragon-chain/loragon-consensus/types"
+// 	"github.com/Loragon-chain/loragonBFT/block"
+// 	"github.com/Loragon-chain/loragonBFT/chain"
+// 	"github.com/Loragon-chain/loragonBFT/genesis"
+// 	"github.com/Loragon-chain/loragonBFT/libs/lvldb"
+// 	"github.com/Loragon-chain/loragonBFT/types"
 // 	"github.com/stretchr/testify/assert"
 // )
 

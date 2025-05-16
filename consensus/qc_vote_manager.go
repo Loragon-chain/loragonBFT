@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/OffchainLabs/prysm/v6/crypto/bls"
 )
 

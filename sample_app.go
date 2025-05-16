@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -193,34 +194,34 @@ func (app *KVStoreApplication) FinalizeBlock(_ context.Context, req *abcitypes.F
 		}
 	}
 
-	// loragonPubkeyHex := "b8cff948c0d4022781418e9242b37da09937d901f0af436756b4228099d1ad5772223106282533bb6105723a0bc90b2e"
-	// if req.Height == 6 {
-	// 	pubkey, _ := hex.DecodeString(loragonPubkeyHex)
-	// 	fmt.Println("loragonPubkeyHex", pubkey)
-	// 	updates = append(updates, abcitypes.ValidatorUpdate{
-	// 		Power:       10,
-	// 		PubKeyBytes: pubkey,
-	// 		PubKeyType:  "bls12-381.pubkey",
-	// 	})
-	// 	events = append(events, abcitypes.Event{
-	// 		Type: "ValidatorExtra",
-	// 		Attributes: []abcitypes.EventAttribute{
-	// 			{Key: "pubkey", Value: loragonPubkeyHex},
-	// 			{Key: "name", Value: "loragon"},
-	// 			{Key: "ip", Value: "42.113.171.94"}, // TODO: change to the actual IP address
-	// 			{Key: "port", Value: "8670"},
-	// 		},
-	// 	})
-	// }
+	loragonPubkeyHex := "00b31c3dd3e87a753df598dca6f803ffcda22ff2f2b0db54481daf2bb0dde81afb7e2d65acb4924546812f4a5eed19400f747bfbe382a77cab7a3c965a13e0f58363e32218b43438de14e56bc46d9b9321fcbc87a46789e6fa948efdbeb29762"
+	if req.Height == 6 {
+		pubkey, _ := hex.DecodeString(loragonPubkeyHex)
+		fmt.Println("loragonPubkeyHex", pubkey)
+		updates = append(updates, abcitypes.ValidatorUpdate{
+			Power:       10,
+			PubKeyBytes: pubkey,
+			PubKeyType:  "bls12-381.pubkey",
+		})
+		events = append(events, abcitypes.Event{
+			Type: "ValidatorExtra",
+			Attributes: []abcitypes.EventAttribute{
+				{Key: "pubkey", Value: loragonPubkeyHex},
+				{Key: "name", Value: "loragon"},
+				{Key: "ip", Value: "42.113.171.94"}, // TODO: change to the actual IP address
+				{Key: "port", Value: "8670"},
+			},
+		})
+	}
 
-	// if req.Height == 20 {
-	// 	pubkey, _ := hex.DecodeString(loragonPubkeyHex)
-	// 	updates = append(updates, abcitypes.ValidatorUpdate{
-	// 		Power:       0,
-	// 		PubKeyBytes: pubkey,
-	// 		PubKeyType:  "bls12-381.pubkey",
-	// 	})
-	// }
+	if req.Height == 20 {
+		pubkey, _ := hex.DecodeString(loragonPubkeyHex)
+		updates = append(updates, abcitypes.ValidatorUpdate{
+			Power:       0,
+			PubKeyBytes: pubkey,
+			PubKeyType:  "bls12-381.pubkey",
+		})
+	}
 
 	if err := app.onGoingBatch.Commit(pebble.Sync); err != nil {
 		log.Panicf("Failed to commit batch: %v", err)

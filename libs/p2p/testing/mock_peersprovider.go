@@ -4,8 +4,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/scorers"
 	pb "github.com/OffchainLabs/prysm/v6/proto/prysm/v1alpha1"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/p2p/enode"

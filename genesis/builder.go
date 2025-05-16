@@ -6,9 +6,9 @@
 package genesis
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/block"
-	cmn "github.com/Loragon-chain/loragon-consensus/libs/common"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	cmn "github.com/Loragon-chain/loragonBFT/libs/common"
+	"github.com/Loragon-chain/loragonBFT/types"
 	v1 "github.com/cometbft/cometbft/api/cometbft/abci/v1"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/pkg/errors"

@@ -8,8 +8,8 @@ package chain
 import (
 	"fmt"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/types"
 )
 
 // Seeker to seek block by given number on the chain defined by head block ID.

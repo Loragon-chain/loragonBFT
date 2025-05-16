@@ -8,9 +8,9 @@ package node
 import (
 	"errors"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/consensus"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/consensus"
+	"github.com/Loragon-chain/loragonBFT/types"
 )
 
 // Block block

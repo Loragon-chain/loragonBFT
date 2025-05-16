@@ -6,7 +6,7 @@
 package chain
 
 import (
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 // Fork describes forked chain.

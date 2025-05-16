@@ -9,8 +9,8 @@ package txpool
 // 	"errors"
 // 	"testing"
 
-// 	"github.com/Loragon-chain/loragon-consensus/genesis"
-// 	"github.com/Loragon-chain/loragon-consensus/types"
+// 	"github.com/Loragon-chain/loragonBFT/genesis"
+// 	"github.com/Loragon-chain/loragonBFT/types"
 // 	"github.com/stretchr/testify/assert"
 // )
 

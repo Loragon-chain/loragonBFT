@@ -9,8 +9,8 @@ import (
 	"container/list"
 	"log/slog"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/kv"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/libs/kv"
+	"github.com/Loragon-chain/loragonBFT/types"
 	cmttypes "github.com/cometbft/cometbft/types"
 	"github.com/ethereum/go-ethereum/rlp"
 )

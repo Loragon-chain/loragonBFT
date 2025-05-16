@@ -13,13 +13,13 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	"github.com/Loragon-chain/loragon-consensus/txpool"
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/block"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	"github.com/Loragon-chain/loragonBFT/txpool"
+	"github.com/Loragon-chain/loragonBFT/types"
 	cmtcfg "github.com/cometbft/cometbft/config"
 	cmtproxy "github.com/cometbft/cometbft/proxy"
 	lru "github.com/hashicorp/golang-lru"
@@ -70,7 +70,7 @@ func NewConsensusReactor(ctx context.Context, config *cmtcfg.Config, chain *chai
 	}
 
 	// initialize consensus common
-	r.logger.Info("my pubkey", "pubkey", hex.EncodeToString(blsMaster.PubKey.Marshal()))
+	r.logger.Info("blsMaster pubkey", "pubkey", hex.EncodeToString(blsMaster.PubKey.Marshal()))
 
 	return r
 }

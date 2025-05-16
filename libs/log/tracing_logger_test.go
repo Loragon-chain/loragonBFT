@@ -9,7 +9,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/cometbft/cometbft/libs/log"
+	"github.com/Loragon-chain/loragonBFT/libs/log"
 )
 
 func TestTracingLogger(t *testing.T) {

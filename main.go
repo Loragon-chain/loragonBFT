@@ -14,13 +14,13 @@ import (
 	"github.com/cometbft/cometbft/proxy"
 	"golang.org/x/sync/errgroup"
 
-	node "github.com/Loragon-chain/loragon-consensus/node"
+	node "github.com/Loragon-chain/loragonBFT/node"
 	cfg "github.com/cometbft/cometbft/config"
 	cmtflags "github.com/cometbft/cometbft/libs/cli/flags"
 	cmtlog "github.com/cometbft/cometbft/libs/log"
 	cmtnode "github.com/cometbft/cometbft/node"
 
-	"github.com/Loragon-chain/loragon-consensus/types"
+	"github.com/Loragon-chain/loragonBFT/types"
 	"github.com/spf13/viper"
 )
 

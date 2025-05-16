@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/Loragon-chain/loragon-consensus/block"
+	"github.com/Loragon-chain/loragonBFT/block"
 )
 
 func (p *Pacemaker) ValidateQC(b *block.Block, escortQC *block.QuorumCert) bool {

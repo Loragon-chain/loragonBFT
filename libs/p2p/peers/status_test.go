@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/scorers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/peerdata"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/scorers"
 	"github.com/OffchainLabs/prysm/v6/config/features"
 	"github.com/OffchainLabs/prysm/v6/config/params"
 	"github.com/OffchainLabs/prysm/v6/consensus-types/primitives"

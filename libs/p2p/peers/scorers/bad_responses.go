@@ -3,7 +3,7 @@ package scorers
 import (
 	"time"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p/peers/peerdata"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p/peers/peerdata"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/pkg/errors"
 )

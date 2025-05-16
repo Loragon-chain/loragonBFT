@@ -1,4 +1,4 @@
-module github.com/Loragon-chain/loragon-consensus
+module github.com/Loragon-chain/loragonBFT
 
 go 1.24.0
 

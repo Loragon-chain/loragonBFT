@@ -9,10 +9,10 @@ import (
 	"encoding/hex"
 	"net/http"
 
-	"github.com/Loragon-chain/loragon-consensus/api/utils"
-	"github.com/Loragon-chain/loragon-consensus/chain"
-	"github.com/Loragon-chain/loragon-consensus/consensus"
-	"github.com/Loragon-chain/loragon-consensus/libs/p2p"
+	"github.com/Loragon-chain/loragonBFT/api/utils"
+	"github.com/Loragon-chain/loragonBFT/chain"
+	"github.com/Loragon-chain/loragonBFT/consensus"
+	"github.com/Loragon-chain/loragonBFT/libs/p2p"
 	"github.com/gorilla/mux"
 )
 

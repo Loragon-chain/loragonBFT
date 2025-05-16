@@ -8,7 +8,7 @@ package co_test
 import (
 	"testing"
 
-	"github.com/Loragon-chain/loragon-consensus/libs/co"
+	"github.com/Loragon-chain/loragonBFT/libs/co"
 )
 
 func TestGoes(t *testing.T) {
